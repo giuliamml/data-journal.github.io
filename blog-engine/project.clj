@@ -5,9 +5,10 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [markdown-clj "0.9.99"]
-                 [clj-jade "0.1.7"]
                  [clj-glob "1.0.0"]
-                 [hickory "0.7.1"]]
+                 [hickory "0.7.1"]
+                 [hiccup "1.0.5"]
+                 [ring "1.6.0-RC3"]]
   :main ^:skip-aot blog.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})
