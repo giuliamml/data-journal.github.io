@@ -81,7 +81,7 @@
       [:div#content
 
        ;;Content
-       [:div#yld]
+       [:div :yld]
        ;;Content
 
        [:a.twitter-share-button
