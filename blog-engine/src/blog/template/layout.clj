@@ -1,4 +1,12 @@
-(ns blog.template.layout)
+(ns blog.template.layout
+  (:require [clj-time.format :as f]))
+
+(defn menu [dates]
+  (mapcat
+   (fn [{:keys [:slug :date :short-name]}]
+     [[:a {:href (name slug)} [:span#nav-item-title short-name]]
+      [:span#nav-item-date (f/unparse (f/formatters :year-month-day) date)]
+      [:br]]) dates))
 
 (defn layout [title description]
   [:html
@@ -30,18 +38,9 @@
         [:a {:target "_blank", :href "//github.com/fjsousa"}
          [:i.fa.fa-github]]]]]
 
-     [:div#menu
-      [:a {:href "webrtc-part1.html"} [:span#nav-item-title "WebRTC Part 1"]]
-      [:span#nav-item-date "(27-02-2015)"]
-      [:br]
-      [:a {:href "webrtc-part2.html"} [:span#nav-item-title "WebRTC Part 2"]]
-      [:span#nav-item-date "(20-03-2015)"]
-      [:br]
-      [:a {:href "fgm.html"} [:span#nav-item-title "Cellular Automata"]]
-      [:span#nav-item-date "(21-06-2015)"]
-      [:br]
-      [:a {:href "open-data.html"} [:span#nav-item-title "Open Data"]]
-      [:span#nav-item-date "(09-10-2016)"]]
+     ;;menu
+     [:div#menu :menu]
+     ;;menu
 
      [:div#footer-bar
 

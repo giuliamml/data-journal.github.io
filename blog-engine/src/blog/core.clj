@@ -5,7 +5,9 @@
             [hickory.render :as render]
             [hickory.core :as hickory]
             [hiccup.core :as hiccup]
-            [clojure.walk :refer [prewalk]])
+            [clojure.walk :refer [prewalk]]
+            [clojure.string :as string]
+            [clj-time.core :as t])
   (:gen-class))
 
 (def root "/Users/fsousa/src/blog-engine")
@@ -19,8 +21,9 @@
   [layout content]
   (prewalk #(if (=  % [:div :yld]) content %) layout))
 
-(defn blog-as-data [md-path]
+(defn blog-as-data
   "Builds the blog data structure from the path of the markdown files of each page"
+  [md-path]
   (->> (get-pages root)
        (reduce (fn [blog-map page]
                  (let [slug (->> page .getName (re-find #"([a-z\d-]+)") last keyword)
@@ -33,19 +36,35 @@
                        (assoc-in [slug :date] (-> date first))
                        (assoc-in [slug :content] hiccup-content)))) {})))
 
-(defn enrich-with-dates [blog]
+(defn slug->short-title
+  [slug]
+  (->> (string/split (name slug) #"-")
+       (map string/capitalize)
+       (string/join " ")))
+
+(defn string->date
+  [string]
+  (->> (string/split string #" ")
+       (map #(Integer. %))
+       (apply t/date-time)))
+
+(string->date "2016 9 10")
+
+(defn enrich-with-dates
   "receives the blog data structure and enriches it with date info. Basically bringing the date
    of each post to the the root level"
-  (let [dates (map (fn [[k {:keys [:date]}]] {k date}) blog)]
-    (reduce (fn [blog date-obj]
-              (let [slug (-> date-obj keys first)
-                    date (get date-obj slug)]
-                (assoc-in blog [:dates slug] date))) blog dates)))
+  [blog]
+  (let [dates (->> blog
+                   (map (fn [[k {:keys [:date]}]] {:slug k :date (string->date date) :short-name (slug->short-title k)}))
+                   (sort-by :date))]
+    (assoc blog :dates dates)))
 
 (-> root
     blog-as-data
     enrich-with-dates
-    :dates)
+    :dates
+    layout/menu)
+
 
 (->> pages
      (map (fn [page]

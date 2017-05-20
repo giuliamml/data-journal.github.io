@@ -8,7 +8,8 @@
                  [clj-glob "1.0.0"]
                  [hickory "0.7.1"]
                  [hiccup "1.0.5"]
-                 [ring "1.6.0-RC3"]]
+                 [ring "1.6.0-RC3"]
+                 [clj-time "0.13.0"]]
   :main ^:skip-aot blog.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})
