@@ -2,7 +2,7 @@ Title: Data Journal - WebRTC Parallel Processing with a 2D partial difference eq
 Subtitle: I did a little experiment with WebRTC and a CFD (Computational Fluid Dynamics) solver I wrote. I wanted to see what could be done with webRTC and browser parallel computing. First, I needed a problem that was computationally intense and suitable to parallelization. CFD suited that class of problems and plus, coming from mechanical engineering, it was a type of problems I was decently familiar with.
 Date: 2015 02 27
 
-#WebRTC Parallel Processing (part-1)
+# WebRTC Parallel Processing (part-1)
 
 I did a little experiment with WebRTC and a CFD (Computational Fluid Dynamics) solver I wrote.
 I wanted to see what could be done with webRTC and browser parallel computing. First, I needed a problem that was
@@ -19,7 +19,7 @@ lot of communication between nodes at each iteration. This way, the communicatio
 In this first post, I'll write about the solver itself.  In a second posts, I'll write about how I used WebRtC to distribute
 the computation across several browsers. In a third post, I'll write about performance considerations.
 
-##The Poisson Equation!
+## The Poisson Equation!
 
 The equation I'm solving is in the form of
 
@@ -54,7 +54,7 @@ It's important to notice that our *U* function doesn't have any practical physic
 It's just a way to test a solver of a differential equation, of which we have an analytical solution.
 
 
-##Numerical Model
+## Numerical Model
 
 The next step is to discretize the equation
 and obtain an algebraic formula for *U* that we can code.
@@ -77,7 +77,7 @@ To compute the field *u* we follow this procedure: we start with all points set 
 We then repeat the process, computing the new values of *u'*, but now using the old values we computed earlier.
 The process is repeated until there is no significant difference between the new values and the old ones.
 
-##Javascript Implementation
+## Javascript Implementation
 
 I implemented the solver in node first so that I could have a version to test in my local machine.
 In CFD testing is an important step and there's two steps to accept a numerical solution as valid.
@@ -146,7 +146,7 @@ the closer the solution is to a final solution.
   console.log('Solver converged with', output.iterations, 'iterations and', output.residue, 'residue.');
 ```
 
-##Visualization
+## Visualization
 
 The solver converges with 6100 iterations a residue of 9.988143389726145e-10.
 
