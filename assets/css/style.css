@@ -80,7 +80,7 @@ body {
 #mc_embed_signup input.button, input.email {
   border-radius: 0px;
   display: inline !important;
-  margin: 0 0% 10px 0 !important;
+  margin: 0 0% 10px 2px !important;
   font-family: "freight-text-pro", Georgia, Cambria, "Times New Roman", Times, serif;
 
 }
@@ -88,7 +88,7 @@ body {
 #mc_embed_signup input.email {
   min-width: 120px !important;
   max-width: 170px !important;
-  height: 14px;
+  height: 32px;
 }
 
 #mc_embed_signup input.button {
