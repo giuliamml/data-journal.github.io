@@ -27,6 +27,7 @@
 
    [:body
     [:div#side-bar
+     [:button#menu-btn [:i.fa.fa-bars {:aria-hidden "true"}]]
      [:div#header
 
       [:div#title "Data Journal"]

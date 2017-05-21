@@ -64,6 +64,17 @@ body {
   margin-bottom: 0;
 }
 
+/*Burger menu and modal*/
+#menu-btn {
+  font-size: 25px;
+  border: none;
+  background-color: white;
+  display: none;
+}
+
+/*Burger menu and modal*/
+
+
 /*subscribe form*/
 #footer-bar {
   padding: 15px 0 0 0;
@@ -210,6 +221,10 @@ body {
     position: absolute;
     bottom: 0px;
     width: 100%;
+  }
+
+  #menu-btn {
+    display: initial;
   }
 
   /*pages*/
