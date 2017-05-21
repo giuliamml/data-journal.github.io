@@ -3,7 +3,7 @@ Subtitle: Forest fire numerical models use Cellular Automata (CA) to simulate fi
 Date: 2015 6 21
 Bla: 123
 
-#Forest Fires and Parallel Cellular Automata, going from 8x to 240x faster with GPUs
+# Forest Fires and Parallel Cellular Automata, going from 8x to 240x faster with GPUs
 
 Forest fire numerical models use Cellular Automata (CA) to simulate fire propagation. A grid or mesh of the terrain is provided, along with maps for parameters like fuel properties, wind speed, humidity and others. The CA is basically a way to propagate an ignition state, based on minimum travel times, between adjacent cells.
 
@@ -18,7 +18,7 @@ Initially, a direct, naive port was attempted which wasn't very performant. This
 Performance increase was only achieved with a rethinking of the algorithm, not by tweaking and fine tunning the GPU parameters of a flawed approach.
 
 
-##Naive algorithm
+## Naive algorithm
 
 The existing algorithm was the following:
 
@@ -121,7 +121,7 @@ are actually propagating and thus, require computation. Here's the speedups for 
 
 As you can see, very far from the two orders of magnitude in performance increase you usually get with GPUs.
 
-##Smarter approach
+## Smarter approach
 
 The algorithm we've seen mimics the way fire propagates in real life, propagating the fire to adjacent cells, one at the time.
 
