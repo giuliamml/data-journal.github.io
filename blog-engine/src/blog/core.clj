@@ -14,8 +14,6 @@
 
 (defn get-pages [root] (->> (str root "/pages/*.md") glob/glob))
 
-(def layout (layout/layout "some title" "some description"))
-
 (defn render-content-in-full-hiccup
   "Receives a hiccup layout and content and returns the layout with the div #yield replaced by the content"
   [layout content]
@@ -48,8 +46,6 @@
        (map #(Integer. %))
        (apply t/date-time)))
 
-(string->date "2016 9 10")
-
 (defn enrich-with-dates
   "receives the blog data structure and enriches it with date info. Basically bringing the date
    of each post to the the root level"
@@ -59,23 +55,17 @@
                    (sort-by :date))]
     (assoc blog :dates dates)))
 
-(-> root
-    blog-as-data
-    enrich-with-dates
-    :dates
-    layout/menu)
 
+(defn build [root]
+  (let [blog-structure (-> root blog-as-data enrich-with-dates)]
+    (->> (dissoc blog-structure :dates);;Iterate over pages only
+         (map (fn [[slug-keyword {:keys [:title :subtitle :content]}]];TODO should be doseq because side effects
+                (let [menu (layout/menu (:dates blog-structure))
+                      full-page (layout/layout title subtitle content menu)
+                      path (str root "/" (name slug-keyword) ".html")]
+                  (spit path (hiccup/html full-page))))))))
 
-(->> pages
-     (map (fn [page]
-            (let [slug (->> page .getName (re-find #"([a-z\d-]+)") last)
-                  html-with-meta (->> page slurp md/md-to-html-string-with-meta)
-                  {:keys [html] {:keys [:title :subtitle :date]} :metadata} html-with-meta
-                  content (->> html hickory/parse-fragment (mapv hickory/as-hiccup) concat (into [:div]))
-                  full-page (render-content-in-full-hiccup (layout/layout (first title) (first subtitle)) content)
-                  path (str root "/" slug ".html"  )]
-              #_full-page
-              (spit path (hiccup/html full-page))))))
+(build root)
 
 (defn -main
   "I don't do a whole lot ... yet."

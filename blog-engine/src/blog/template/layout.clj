@@ -2,13 +2,15 @@
   (:require [clj-time.format :as f]))
 
 (defn menu [dates]
-  (mapcat
-   (fn [{:keys [:slug :date :short-name]}]
-     [[:a {:href (name slug)} [:span#nav-item-title short-name]]
-      [:span#nav-item-date (f/unparse (f/formatters :year-month-day) date)]
-      [:br]]) dates))
+  (->> dates
+       (mapcat
+              (fn [{:keys [:slug :date :short-name]}]
+                [[:a {:href (str (name slug) ".html")} [:span#nav-item-title short-name]]
+                 [:span#nav-item-date (f/unparse (f/formatters :year-month-day) date)]
+                 [:br]]))
+       (into [:div#menu ])))
 
-(defn layout [title description]
+(defn layout [title description content menu]
   [:html
    {:lang "en"}
    [:head
@@ -39,8 +41,9 @@
          [:i.fa.fa-github]]]]]
 
      ;;menu
-     [:div#menu :menu]
+     ;;[:div#menu :menu]
      ;;menu
+     menu
 
      [:div#footer-bar
 
@@ -79,7 +82,7 @@
      [:div#content
 
       ;;Content
-      [:div :yld]
+      content
       ;;Content
 
       [:a.twitter-share-button
