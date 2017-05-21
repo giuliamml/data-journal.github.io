@@ -1,7 +1,6 @@
 Title: Data Journal - Forest Fires and Parallel Cellular Automata, going from 8x to 240x faster with GPUs
 Subtitle: Forest fire numerical models use Cellular Automata (CA) to simulate fire propagation. A grid or mesh of the terrain is provided, along with maps for parameters like fuel properties, wind speed, humidity and others. The CA is basically a way to propagate an ignition state, based on minimum travel times, between adjacent cells.
 Date: 2015 6 21
-Bla: 123
 
 # Forest Fires and Parallel Cellular Automata, going from 8x to 240x faster with GPUs
 
@@ -36,7 +35,6 @@ where *ROS* is the **R**ate **O**f **S**pread, basically the flame speed in the 
 
 <div class="fgm-wrapper">
   <canvas id="fgm-serial" width="400" height="400">Consider updating your browser.</canvas>
-  <button onclick="dumb.run()" class="actionbutton">►</button>
 </div>
 <button onclick="dumb.run()" class="actionbutton">►</button>
 
@@ -47,7 +45,7 @@ This is the JavaScript code that runs the spatial loop. If you inspect this page
 
  ```Javascript
 
- function naiveSpatialLoop(){
+function naiveSpatialLoop(){
 
    t = tn;
    tn = Infinity;
@@ -152,7 +150,6 @@ The solution is to do it iteratively, ie, to start from a random ignition map an
 
 <div class="fgm-wrapper">
   <canvas id="fgm-parallel" width="400" height="400">Consider updating your browser.</canvas>
-  <button onclick="smart.run()" class="actionbutton">►</button>
 </div>
 <button onclick="smart.run()" class="actionbutton">►</button>
 
@@ -202,7 +199,7 @@ function smartSpatialLoop(){
 
 The algorithm is much more efficient because I no longer spend most of the time looking for empty cells. Also, because of its parallelism, there's no longer race conditions and consequent serialization. The performance gains are around two orders of magnitude.
 
-![Outer propagation](assets/img/fgm/smart.png "Outer Propagation")
+![Outer propagation](/assets/img/fgm/smart.png "Outer Propagation")
 
 The two models side by side, with the same iteration interval of 100ms. Notice that the conditions are random, so each time you refresh the page, you'll get a slightly different simulation:
 
@@ -214,7 +211,3 @@ The two models side by side, with the same iteration interval of 100ms. Notice t
 
 
 And that's it. If you want to know more just follow the link and read the<a href="https://github.com/fjsousa/fjsousa.github.io/blob/master/assets/docs/sousa-etall.pdf" target="_blank">white paper</a>.
-
-//- rags
-<script type="text/javascript" src="assets/src/rags.js"></script>
-<script type="text/javascript" src="assets/src/fgm-main.js"></script>
