@@ -10,7 +10,7 @@ body {
 #side-bar {
   width: 270px;
   position: fixed;
-  float: left;  
+  float: left;
   height: 98%;
   text-align: right;
   font-size: 17px;
@@ -68,7 +68,7 @@ body {
 #footer-bar {
   padding: 15px 0 0 0;
   position: absolute;
-  bottom:0 !important; 
+  bottom:0 !important;
   left: 0!important;
 }
 
@@ -81,7 +81,7 @@ body {
   border-radius: 0px;
   display: inline !important;
   margin: 0 0% 10px 0 !important;
-  font-family: "freight-text-pro", Georgia, Cambria, "Times New Roman", Times, serif;  
+  font-family: "freight-text-pro", Georgia, Cambria, "Times New Roman", Times, serif;
 
 }
 
@@ -157,15 +157,15 @@ body {
   margin-right: auto;
   height: 35px;
   width: 60px;
-  margin-top: 20px; 
-  border-width: 0px 1px 1px 0px; 
+  margin-top: 20px;
+  border-width: 0px 1px 1px 0px;
   border-radius: 2px;
-  font-family: "freight-text-pro", Georgia, Cambria, "Times New Roman", Times, serif;  
-  font-size: 23px; 
-  text-align: center; 
+  font-family: "freight-text-pro", Georgia, Cambria, "Times New Roman", Times, serif;
+  font-size: 23px;
+  text-align: center;
   background-color: #aaa;
-  border-color: rgba(200,200,200,0.8); 
-  color: #FFFFFF; 
+  border-color: rgba(200,200,200,0.8);
+  color: #FFFFFF;
 }
 
 
@@ -180,7 +180,7 @@ body {
     height: 290px;
   }
 
-  #header {    
+  #header {
     text-align: left;
     float: left;
   }
@@ -194,7 +194,7 @@ body {
     margin-right: 10px;
   }
 
-  #title { 
+  #title {
     margin-top: 0px;
   }
 
@@ -227,7 +227,7 @@ body {
   }
 
   #container img, canvas {
-    max-width: 90%; 
+    max-width: 90%;
   }
 
   .hljs {
@@ -237,9 +237,5 @@ body {
   #menu {
     display: none;
   }
-  
+
 }
-
-
-
-
