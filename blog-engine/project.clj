@@ -10,6 +10,7 @@
                  [hiccup "1.0.5"]
                  [ring "1.6.0-RC3"]
                  [clj-time "0.13.0"]]
+  :plugins [[com.billpiel/sayid "0.0.15"]]
   :main ^:skip-aot blog.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})

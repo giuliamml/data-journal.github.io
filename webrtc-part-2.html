@@ -1,0 +1,181 @@
+<html lang="en"><head><meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport" /><meta content="In my last post, I introduced a CFD code which solved a partial differences equation implemented in JavaScript. The starting point, was to use a parallel computational task and distribute it among several browsers with Webrtc. In this post, I\&apos;ll show you how I accomplished just that." name="description" /><title>Data Journal - WebRTC Parallel Processing with a 2D partial difference equations solver (part-2)</title><link href="assets/css/font.css" rel="stylesheet" /><link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" /><link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css" rel="stylesheet" /><link href="//cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css" /><link href="assets/css/style.css" rel="stylesheet" /><script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script></head><body><div id="side-bar"><div id="header"><div id="title">Data Journal</div><div id="author"><div id="name">Flávio Sousa</div><div id="social-media"><a href="//pt.linkedin.com/pub/flávio-sousa/3a/a06/770/" target="_blank"><i class="fa fa-linkedin"></i></a><a href="//twitter.com/verysocialsousa" target="_blank"><i class="fa fa-twitter"></i></a><a href="//github.com/fjsousa" target="_blank"><i class="fa fa-github"></i></a></div></div></div><div id="menu"><a href="webrtc-part-1.html"><span id="nav-item-title">Webrtc Part 1</span></a><span id="nav-item-date">2015-02-27</span><br /><a href="webrtc-part-2.html"><span id="nav-item-title">Webrtc Part 2</span></a><span id="nav-item-date">2015-03-20</span><br /><a href="cellular-automata.html"><span id="nav-item-title">Cellular Automata</span></a><span id="nav-item-date">2015-06-21</span><br /><a href="open-data.html"><span id="nav-item-title">Open Data</span></a><span id="nav-item-date">2016-10-10</span><br /></div><div id="footer-bar"><div id="mc_embed_signup"><form action="//github.us10.list-manage.com/subscribe/post?u=5b26850668dc6b3f84778ca5e&amp;id=cb5f4eedfe" class="validate" id="mc-embedded-subscribe-form" method="post" name="mc-embedded-subscribe-form" novalidate="" target="_blank"><div id="mc_embed_signup_scroll"><label for="mce-EMAIL">Subscribe to the mailing list</label><input class="email" id="mce-EMAIL" name="EMAIL" placeholder="email address" required="" type="email" value="" /><div style="position: absolute; left: -5000px;"><input name="b_5b26850668dc6b3f84778ca5e_cb5f4eedfe" tabindex="-1" type="text" value="" /></div><div class="clear"><input class="button" id="mc-embedded-subscribe" name="subscribe" type="submit" value="Subscribe" /></div></div></form></div><div id="about"><p id="about-title">About:</p><p>Data Journal is a blog about numbers, modelling and coding in general</p></div></div></div><div id="container"><div id="content"><div><h1>WebRTC Parallel Processing (part-2)</h1><p>In my<a href="/webrtc-part1.html">last post</a>, I introduced a CFD code which solved a partial differences equation implemented in JavaScript. The starting point, was to use a parallel computational task and distribute it among several browsers with Webrtc. In this post, I'll show you how I accomplished just that.</p><p>I've devised a solution where I have several browsers in different computers. Each browser has a peer connection and is connected to the same URL. I'm using a master/server approach, where one peer distributes work among the other peers and judges if the convergence criteria is met.</p><h2>WebRTC</h2><p>WebRTC is a browser specification to enable peer-to-peer communication in the browser. It enables, data, chat and video communication among browsers, without data passing through a server. There is however, the need to have a signalling server that lets the peers know about each other.</p><p>For production applications, you'll need an additional server that relays messages when both peers can't &quot;see each other&quot;, ie, both are behind a firewall. However, we'll simplify this step by running the experiment inside a local network.</p><p>To abstract the browser implementation of WebRTC, I'm using<a href="http://peerjs.com/">peer.js</a>.</p><h2>Peer.js</h2><p>You can test peer.js locally with node and the package <code>peer</code>. We'll write a simple server code that listens and logs  peer connections:</p><pre><code class="JavaScript">  var PeerServer = require('peer').PeerServer;
+  var peerServer = PeerServer({port: 9000, path: '/myapp'});
+
+  peerServer.on('connection', function (id) {
+    console.log('Peer connected with id:', id);
+  });
+
+</code></pre><p>For the client code, include the script tag in your html page:</p><pre><code class="html">  &lt;script src=&quot;http://cdn.peerjs.com/0.3/peer.js&quot;&gt;&lt;/script&gt;
+</code></pre><p>Now open this html page in a browser tab and open the dev console to write:</p><pre><code class="javascript">  var peer = new Peer( 'peer-id', {host: 'localhost', port: 9000, path: '/myapp'});
+
+  peer.on('connection', function(conn) {
+    conn.on('data', function(data){
+      console.log(data);
+    });
+  });
+</code></pre><p>Open another tab and write:</p><pre><code class="javascript">  var peer = new Peer( 'another-peer-id', {host: 'localhost', port: 9000, path: '/myapp'});
+
+  var conn = peer.connect('peer-id');
+  conn.on('open', function(){
+    conn.send('Hello from another peer');
+  });
+</code></pre><p>You should see the words 'Hello from another peer' appear on the first tab.</p><h2>Signalling server</h2><p> With peer.js, browsers can communicate between each other but there's no api to exchange messages between server and peers. So how does a peer know which peers are connected to the server? One way is to setup a REST end point and return a json object with the peer list.</p><p>Additionally I want to create the notion of peer groups as a way to allow peers to pass messages only between members in the same group. The concept needs to be implemented if we want to run several experiments with the same signalling server.</p><p>The idea is to use the URL path as a prefix of the peer id. That way, it's easy to query the server for ids that start with a certain prefix. For instance, to connect the client to a group named &quot;someexperiment&quot; we'll do:</p><pre><code>http://localhost:5000/someexperiment
+</code></pre><p>and to list the peers connected to &quot;someexperiment&quot; we do</p><pre><code>http://localhost:5000/list/someexperiment
+</code></pre><p>We'll start from the basic signalling server example above and use <code>express</code> for the REST endpoint:</p><pre><code class="javascript">var http = require('http');
+var express = require('express');
+var ExpressPeerServer = require('peer').ExpressPeerServer;
+
+var app = express();
+var server = http.createServer(app);
+
+var expressPeerServer = ExpressPeerServer(server, options);
+
+var port = process.env.PORT || 5000;
+server.listen(port, function () {
+  console.log('Signalling server live at', port);
+});
+
+expressPeerServer.on('connection', function (id) {
+  console.log('Peer connected with id:', id);
+});
+
+expressPeerServer.on('disconnect', function (id) {
+  console.log('Peer %s disconnected', id);
+});
+
+app.use('/myapp', expressPeerServer);
+</code></pre><p>The server will have a handler to serve the client static pages in the root:</p><pre><code class="JavaScript">app.use('/:prefix', express.static(__dirname + '/client'));
+</code></pre><p>and the peer list function looks like this.</p><pre><code class="javascript">var _ = require('underscore');
+
+app.use('/list/:prefix', function (req, res) {
+
+  //get all peer connected to the server
+  var peers = expressPeerServer._clients.peerjs;
+
+  if (!peers)
+    return res.json([]);
+
+  var peersKeys = Object.keys(peers);
+  var requestPeers = [];
+
+  var prefix = req.params.prefix;
+
+  _.filter(peersKeys, function (peerId) {
+    var peerPrefix = getPrefix(peerId);
+
+    if (peerPrefix === prefix)
+      requestPeers.push(peerId);
+  });
+
+  res.json(requestPeers);
+
+});
+
+function getPrefix(id){
+  return id.split('-')[0];
+}
+</code></pre><p>In the client code, we ensure that the peer connects with an unique id with a simple strategy. We can't just generate a random string because there's a non null probability that two peers get the same id. This will happen eventually of course even if the random string is very big.</p><p>We'll use browser fingerprinting to generate a string unique to the browser and then add a random string plus a timestamp. This technique still doesn't guarantee an unique id but it greatly reduces the probability of two peers connecting with the same id, because there would have to be two peer connections, comming from the same browser, in less than a microsecond, to have duplicated ids.</p><p>For fingerprinting, we'll use the lib<a href="https://github.com/Valve/fingerprintjs2">Fingerprint2</a> by Valentin Vasilyev.</p><pre><code class="JavaScript">  new Fingerprint2().get(onFingerPrint);
+
+  function onFingerPrint(fingerprint){
+
+      peer = new Peer(createPId(window.location.pathname, fingerprint), {host: location.hostname, port: 5000, path: '/myapp'});
+
+      //Worker peer will receive something to do
+      peer.on('connection', function (conn) {
+        conn.on('data', function (data) {
+          console.log('Received Peer data:', data);
+        });
+      });
+
+  }
+
+  function createPId (namespace, fp) {
+
+    var prefix = namespace.split('/')[1];
+
+    //prefix validation. In this case, a valid prefix has only characters a to z
+    if (/^[a-z]+$/.test(prefix)) {
+      var id = prefix + '-' + fp + Date.now() + Math.floor( Math.random()*1000);
+      return id;
+    } else {
+      console.error('Prefix not supported. Only letters  \'a\' to \'z\' ');
+    }
+  }
+
+</code></pre><p>Finally, to simulate the master/server approach, I'll send a simple message from one tab to all others:</p><pre><code class="javascript">  var AllPeers = function (){
+
+    var that = this;
+
+    this.update = function (cb) {
+      $.get('/list'+ prefix, function(peers){
+
+        //remove master Id from peer list
+        var i = peers.indexOf(peer.id);
+        peers.splice(i, 1);
+        that.list = peers;
+
+        cb(peers);
+      });
+    };
+
+    this.poke = function(){
+
+      //Send something to do to all peers
+      this.list.forEach(function(peerId){
+
+        var conn = peer.connect(peerId);
+        conn.on('open', function (){
+          conn.send('Do Something peer ' + peerId);
+        });
+
+      });
+    };
+  };
+</code></pre><p>To test the approach, I'll write the following in a browser dev console:</p><pre><code class="JavaScript">var allPeers = new AllPeers();
+
+allPeers.update(function (peers) {
+  console.log('You have %d peers', peers.length );
+
+  allPeers.poke();
+});
+</code></pre><p>And now we should have something to do in the other tabs.</p><p>You can see the whole code<a href="https://github.com/fjsousa/not-so-basic-ss">here</a>.</p><p><!--&ndash; **** allow discovery****??? &ndash;--></p><h2>Implementing...</h2><p>Now that we have our master/server approach defined, we'll apply it to the CFD problem at hand.</p><p> The way we parallelize the problem  is called Domain Paralellization. In broad strokes, this is achieved by splitting the geometry of the problem among independent processors, in this case, browser tabs. Each tab is responsible for running one instance of the poisson solver. The solver is converged until the stop criteria are met, which can be the number of iterations or the residue of the iteration being lower than a maximum value. Then, the boundaries are emitted to the neighbour tabs. For instance, the tab with section 1 will emit the east boundary to section 3, and the south boundary to section 2. The process keeps going until the global convergence is met. In our case, this happens when the global residue drops bellow a maximum allowed value.</p><p><img alt="Domain Split" src="assets/img/webrtc/domain-split.png" title="Domain Split" /></p><p>I've put a <a href="https://github.com/fjsousa/poisson-rtc">repository</a> on github with the code I used in this experiment. The main structure is</p><pre><code class="bash">  \
+    index.js
+    client\
+      block.js
+      client.js
+      index.html
+      master.js
+      poisson.js
+      worker.js
+
+</code></pre><p><code>index.js</code> is our signalling server. Its main function is to allow peers to connect and know about each other. The entire problem is solved in the browser and nothing goes through the server.</p><p>The client folder is the code which will run on the browsers. The client code is organized as follows:</p><p><code>master.js</code> has the <code>Master</code> class with methods to launch the worker peers and judge convergence.</p><p><code>block.js</code> has the <code>Block</code> class with methods to start the poisson solver and emit the boundaries to the neighbour peers. The solver has to run inside a<a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/basic_usage">webworker</a> otherwise it would block the web page and crash the browser. This is the <code>worker.js</code> file.</p><p><code>poisson.js</code> is the solver covered in the <a href="/webrtc-part1.html">previous post</a>.</p><h2>Experiment</h2><p>This section shows how you can run the experiment in your local network.</p><p>Clone the repository with:</p><pre><code>git clone https://github.com/fjsousa/poisson-rtc.git
+</code></pre><p>Then install:</p><pre><code>npm run install-all
+</code></pre><p>And run the server:</p><pre><code>npm start
+</code></pre><p>Now, open five tabs in your browser, or in browsers of computers in your local network and type:</p><p><code>http://localhost:8080/experiment123</code></p><p>Open the console in one of the tabs and paste the code:</p><pre><code class="Javascript">new AllPeers().update(function(peers){
+
+  var opts = {
+    peerList: peers,    //your peers
+    blockRows: 2,       //number of block rows
+    blockCols: 2,       //number of block cols
+    n: 50,              //number of rows of each block
+    m: 50,              //number of cols of each block
+    blockMaxRes: 1E-9,  //inner solver stopping criteria
+    blockMaxItt: 60     //inner solver stopping criteria
+  };
+
+  masterBlock = new MasterBlock(opts);
+})
+</code></pre><p>When the process finishes, you'll get a download link for each block. In this case, 4. To finish, here's a nice gif animation. This is what the iterative process looks like in the first few iterations:</p><p><img alt="gif time" src="assets/img/webrtc/gif.gif" title="gif time" /></p><p>In the next post, I'll finish with a note on performance and speed ups.</p></div><a class="twitter-share-button" data-size="large" data-via="fjmarujo" href="https://twitter.com/share">Tweet<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></a><div id="disqus_thread"><script type="text/javascript">/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'this-data'; // required: replace example with your forum shortname
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><noscript>Please enable JavaScript to view the<a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div></div></div><div id="footer"></div><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-53583095-1', 'auto');
+  ga('send', 'pageview');
+</script><script src="//code.jquery.com/jquery-1.11.2.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js" type="text/javascript"></script><script>hljs.initHighlightingOnLoad();</script></body></html>
