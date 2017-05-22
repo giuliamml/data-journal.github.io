@@ -63,7 +63,8 @@
     (->> (dissoc blog-structure :dates);;Iterate over pages only
          (map (fn [[slug-keyword {:keys [:title :subtitle :content]}]];TODO should be doseq because side effects
                 (let [menu (layout/menu (:dates blog-structure))
-                      full-page (layout/layout title subtitle content menu)
+                      modal-menu (layout/modal-menu (:dates blog-structure))
+                      full-page (layout/layout title subtitle content menu modal-menu)
                       path (str root "/" (name slug-keyword) ".html")]
                   (spit path (hiccup/html full-page))))))))
 

@@ -1,16 +1,27 @@
 (ns blog.template.layout
   (:require [clj-time.format :as f]))
 
+
+
 (defn menu [dates]
   (->> dates
        (mapcat
               (fn [{:keys [:slug :date :short-name]}]
-                [[:a {:href (str (name slug) ".html")} [:span#nav-item-title short-name]]
-                 [:span#nav-item-date (f/unparse (f/formatters :year-month-day) date)]
+                [[:a {:href (str (name slug) ".html")} [:span.nav-item-title short-name]]
+                 [:span.nav-item-date  (f/unparse (f/formatters :year-month-day) date)]
                  [:br]]))
        (into [:div#menu ])))
 
-(defn layout [title description content menu]
+(defn modal-menu [dates]
+  (->> dates
+       (mapcat
+              (fn [{:keys [:slug :date :short-name]}]
+                [[:a {:href (str (name slug) ".html")} [:span.modal-nav-item-title short-name]]
+                 [:span.modal-nav-item-date (str "(" (f/unparse (f/formatters :year-month-day) date) ")")]
+                 [:br]]))
+       (into [:div.modal-menu-items ])))
+
+(defn layout [title description content menu modal-menu]
   [:html
    {:lang "en"}
    [:head
@@ -27,6 +38,14 @@
 
    [:body
     [:div#side-bar
+
+     ;;modal
+     [:div#menu-modal.menu-modal
+      [:div.modal-content
+       [:span.menu-close "×"]
+       modal-menu]]
+     ;;modal
+
      [:button#menu-btn [:i.fa.fa-bars {:aria-hidden "true"}]]
      [:div#header
 
@@ -100,6 +119,7 @@
     [:script
      "(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){\n  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),\n  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)\n  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');\n  ga('create', 'UA-53583095-1', 'auto');\n  ga('send', 'pageview');\n"]
     [:script {:src "//code.jquery.com/jquery-1.11.2.min.js"}]
+    [:script {:type "text/javascript" :src "assets/src/modal.js"}]
     [:script {:type "text/javascript" :src "//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"}]
     [:script "hljs.initHighlightingOnLoad();"]
     ;;cellular automata post
