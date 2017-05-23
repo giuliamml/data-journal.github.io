@@ -170,6 +170,12 @@ body {
   float: left;
 }
 
+#content li {
+    font-size: 22px;
+    line-height: 1.5;
+    display: list-item;
+}
+
 #container h1 {
   font-size: 40px;
 }
