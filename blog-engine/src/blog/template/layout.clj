@@ -37,6 +37,7 @@
     [:script {:type "text/javascript" :src "//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"}]]
 
    [:body
+    [:div#desktop-source.source [:a {:target "_blank" :href "https://github.com/data-journal/data-journal.github.io"} "Source"]]
     [:div#side-bar
 
      ;;modal
@@ -89,7 +90,8 @@
             :tabindex "-1"}]]
          [:div.clear
           [:input#mc-embedded-subscribe.button
-           {:value "Subscribe", :type "submit", :name "subscribe"}]]]]]
+           {:value "Subscribe", :type "submit", :name "subscribe"}]]
+         [:div#mobile-source.source [:a {:target "_blank" :href "https://github.com/data-journal/data-journal.github.io"} "Source"]]]]]
 
       [:div#about
        [:p#about-title "About:"]

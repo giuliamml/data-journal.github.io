@@ -158,6 +158,24 @@ body {
   max-width: 90px !important;
 }
 
+#desktop-source {
+    position: fixed;
+    right: 60px;
+    bottom: 30px;
+}
+
+#mobile-source {
+    display: none;
+}
+
+.source a{
+  color: #aaa;
+}
+
+.source a:hover {
+    text-decoration: underline;
+}
+
 /*Pages*/
 #container {
   width: 80%;
@@ -284,6 +302,16 @@ body {
   #menu-btn {
     display: initial;
   }
+
+  /*Source code*/
+  #desktop-source {
+      display: none;
+  }
+
+  #mobile-source {
+      display: block;
+  }
+  /*Source code*/
 
   /*pages*/
   #content {
