@@ -95,7 +95,7 @@
 
       [:div#about
        [:p#about-title "About:"]
-       [:p "Data Journal is a blog about numbers, modelling and coding in general"]]]]
+       [:p "Simulating reality since 2015"]]]]
 
     [:div#container
      [:div#content
