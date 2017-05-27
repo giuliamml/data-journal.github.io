@@ -1,7 +1,7 @@
 (ns blog.core
   (:require [markdown.core :as md]
             [org.satta.glob :as glob]
-            [blog.template.layout :as layout]
+            [blog.template.layout :refer :all]
             [hickory.render :as render]
             [hickory.core :as hickory]
             [hiccup.core :as hiccup]
@@ -58,17 +58,22 @@
                    (sort-by :date))]
     (assoc blog :dates dates)))
 
-(defn build [root]
+(defn front-page!
+  "Builds front page with "
+  [blog-structure])
+
+(defn build! [root]
   (let [blog-structure (-> root blog-as-data enrich-with-dates)]
-    (->> (dissoc blog-structure :dates);;Iterate over pages only
+    (front-page! blog-structure)
+    (->> (dissoc blog-structure :dates) ;;Iterate over pages only
          (map (fn [[slug-keyword {:keys [:title :subtitle :content]}]];TODO should be doseq because side effects
-                (let [menu (layout/menu (:dates blog-structure))
-                      modal-menu (layout/modal-menu (:dates blog-structure))
-                      full-page (layout/layout title subtitle content menu modal-menu)
+                (let [menu (menu (:dates blog-structure))
+                      modal-menu (modal-menu (:dates blog-structure))
+                      full-page (layout title subtitle content menu modal-menu twitter-el disqus-el)
                       path (str root "/" (name slug-keyword) ".html")]
                   (spit path (hiccup/html full-page))))))))
 
-(build root)
+(build! root)
 
 (defn -main
   "I don't do a whole lot ... yet."

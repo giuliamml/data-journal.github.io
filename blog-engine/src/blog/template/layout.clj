@@ -21,7 +21,24 @@
                  [:br]]))
        (into [:div.modal-menu-items ])))
 
-(defn layout [title description content menu modal-menu]
+(def twitter-el
+  [:a.twitter-share-button
+   {:href "https://twitter.com/share" :data-via "fjmarujo" :data-size "large"} "Tweet"
+   [:script
+    "!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');"]])
+
+(def disqus-el
+  [:div#disqus_thread
+   [:script
+    {:type "text/javascript"}
+    "/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */\nvar disqus_shortname = 'this-data'; // required: replace example with your forum shortname\n/* * * DON'T EDIT BELOW THIS LINE * * */\n(function() {\n    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;\n    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';\n    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);\n})();"]
+   [:noscript
+    "Please enable JavaScript to view the"
+    [:a
+     {:href "https://disqus.com/?ref_noscript"}
+     "comments powered by Disqus."]]])
+
+(defn layout [title description content menu modal-menu twitter-el disqus-el]
   [:html
    {:lang "en"}
    [:head
@@ -102,20 +119,14 @@
 
       content
 
+      twitter-el
+
       [:a.twitter-share-button
        {:href "https://twitter.com/share" :data-via "fjmarujo" :data-size "large"} "Tweet"
        [:script
         "!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');"]]
 
-      [:div#disqus_thread
-       [:script
-        {:type "text/javascript"}
-        "/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */\nvar disqus_shortname = 'this-data'; // required: replace example with your forum shortname\n/* * * DON'T EDIT BELOW THIS LINE * * */\n(function() {\n    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;\n    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';\n    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);\n})();"]
-       [:noscript
-        "Please enable JavaScript to view the"
-        [:a
-         {:href "https://disqus.com/?ref_noscript"}
-         "comments powered by Disqus."]]]]]
+      disqus-el]]
 
     [:div#footer]
     [:script
