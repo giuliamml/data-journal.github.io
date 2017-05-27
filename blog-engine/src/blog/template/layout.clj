@@ -140,3 +140,7 @@
     [:script {:type "text/javascript" :src "assets/src/fgm-main.js"}]
     ;;cellular automata post
     ]])
+
+(defn front-page-hiccup
+  []
+  [:p "Front-page"])

@@ -58,10 +58,6 @@
                    (sort-by :date))]
     (assoc blog :dates dates)))
 
-(defn front-page!
-  "Builds front page with "
-  [blog-structure])
-
 (defn build! [root]
   (let [blog-structure (-> root blog-as-data enrich-with-dates)]
     (front-page! blog-structure)
@@ -70,8 +66,16 @@
                 (let [menu (menu (:dates blog-structure))
                       modal-menu (modal-menu (:dates blog-structure))
                       full-page (layout title subtitle content menu modal-menu twitter-el disqus-el)
-                      path (str root "/" (name slug-keyword) ".html")]
-                  (spit path (hiccup/html full-page))))))))
+                      path (str root "/" (name slug-keyword) ".html")
+                      front-page (layout "Front-page"
+                                         "front-page-description"
+                                         (front-page-hiccup)
+                                         menu
+                                         modal-menu
+                                         twitter-el
+                                         disqus-el)]
+                  (spit path (hiccup/html full-page))
+                  (spit (str root "/index.html") (hiccup/html front-page))))))))
 
 (build! root)
 
