@@ -138,4 +138,23 @@
 
 (defn front-page-hiccup
   []
-  [:p "Front-page"])
+  [:div.index-container
+   [:div.index-item
+    [:div.index-title "Some blog Post"]
+    [:div.index-date "04-20-2016"]
+    [:div.index-description "Forest fire numerical models use Cellular Automata (CA) to simulate fire propagation. A grid or mesh of the terrain is provided, along with maps for parameters like fuel properties, wind speed, humidity and others. The CA is basically a way to propagate an ignition state, based on minimum travel times, between adjacent cells."]]
+   [:div.index-item
+    [:div.index-title "Another blog Post"]
+    [:div.index-date "04-20-2016"]
+    [:div.index-description "Forest fire numerical models use Cellular Automata (CA) to simulate fire propagation. A grid or mesh of the terrain is provided, along with maps for parameters like fuel properties, wind speed, humidity and others. The CA is basically a way to propagate an ignition state, based on minimum travel times, between adjacent cells."]]
+   [:div.index-item
+    [:div.index-title "Even another blog Post"]
+    [:div.index-date "04-20-2016"]
+    [:div.index-description "Forest fire numerical models use Cellular Automata (CA) to simulate fire propagation. A grid or mesh of the terrain is provided, along with maps for parameters like fuel properties, wind speed, humidity and others. The CA is basically a way to propagate an ignition state, based on minimum travel times, between adjacent cells."]
+    [:div.fgm-wrapper
+     [:canvas#fgm-parallel
+      {:height "400", :width "400"}
+      "Consider updating your browser."]]
+    [:button.actionbutton {:onclick "smart.run()"} "►"]]])
+
+(prn "helo!")

@@ -72,8 +72,7 @@
                                          (front-page-hiccup)
                                          menu
                                          modal-menu
-                                         twitter-el
-                                         disqus-el)]
+                                         nil nil)]
                   (spit path (hiccup/html full-page))
                   (spit (str root "/index.html") (hiccup/html front-page))))))))
 

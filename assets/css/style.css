@@ -176,6 +176,23 @@ body {
     text-decoration: underline;
 }
 
+/*Intro*/
+.index-item {
+    padding: 35px 0px 35px 0px;
+}
+.index-title {
+    font-size: 30px;
+}
+
+.index-date {
+    color: rgba(150,150,150,0.8)!important;
+}
+
+.index-description {
+    padding-top: 15px;
+}
+/*Intro*/
+
 /*Pages*/
 #container {
   width: 80%;
