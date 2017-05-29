@@ -5,6 +5,7 @@
             [hickory.render :as render]
             [hickory.core :as hickory]
             [hiccup.core :as hiccup]
+            [clojure.tools.namespace.repl :refer [refresh]]
             [clojure.walk :refer [prewalk]]
             [clojure.string :as string]
             [clj-time.core :as t])
@@ -59,8 +60,9 @@
     (assoc blog :dates dates)))
 
 (defn build! [root]
+  (refresh)
   (let [blog-structure (-> root blog-as-data enrich-with-dates)]
-    (front-page! blog-structure)
+    ;;(front-page! blog-structure)
     (->> (dissoc blog-structure :dates) ;;Iterate over pages only
          (map (fn [[slug-keyword {:keys [:title :subtitle :content]}]];TODO should be doseq because side effects
                 (let [menu (menu (:dates blog-structure))
@@ -76,10 +78,7 @@
                   (spit path (hiccup/html full-page))
                   (spit (str root "/index.html") (hiccup/html front-page))))))))
 
-(build! root)
-
-(defn -main
-  "I don't do a whole lot ... yet."
+(defn main
   [& args]
-  (println "Hello, World!"))
+  (build! root))
 

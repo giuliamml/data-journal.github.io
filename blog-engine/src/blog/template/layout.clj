@@ -67,7 +67,7 @@
      [:button#menu-btn [:i.fa.fa-bars {:aria-hidden "true"}]]
      [:div#header
 
-      [:div#title "Data Journal"]
+      [:div#title [:a {:href "/"} "Data Journal"]]
       [:div#author [:div#name "Flávio Sousa"]
 
        [:div#social-media
@@ -156,5 +156,3 @@
       {:height "400", :width "400"}
       "Consider updating your browser."]]
     [:button.actionbutton {:onclick "smart.run()"} "►"]]])
-
-(prn "helo!")
