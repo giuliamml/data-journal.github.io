@@ -1,8 +1,6 @@
 (ns blog.template.layout
   (:require [clj-time.format :as f]))
 
-
-
 (defn menu [dates]
   (->> dates
        (mapcat
@@ -20,6 +18,15 @@
                  [:span.modal-nav-item-date (str "(" (f/unparse (f/formatters :year-month-day) date) ")")]
                  [:br]]))
        (into [:div.modal-menu-items ])))
+
+(defn front-page-hiccup
+  [blog-structure]
+  [:div.index-container
+   (map (fn [[slug {:keys [:title :subtitle :date]}]]
+          [:div.index-item
+           [:div.index-title [:a {:href (str (name slug) ".html")} title]]
+           [:div.index-date (f/unparse (f/formatters :year-month-day) date)]
+           [:div.index-description subtitle]]) blog-structure)])
 
 (def twitter-el
   [:a.twitter-share-button
@@ -136,23 +143,4 @@
     ;;cellular automata post
     ]])
 
-(defn front-page-hiccup
-  []
-  [:div.index-container
-   [:div.index-item
-    [:div.index-title "Some blog Post"]
-    [:div.index-date "04-20-2016"]
-    [:div.index-description "Forest fire numerical models use Cellular Automata (CA) to simulate fire propagation. A grid or mesh of the terrain is provided, along with maps for parameters like fuel properties, wind speed, humidity and others. The CA is basically a way to propagate an ignition state, based on minimum travel times, between adjacent cells."]]
-   [:div.index-item
-    [:div.index-title "Another blog Post"]
-    [:div.index-date "04-20-2016"]
-    [:div.index-description "Forest fire numerical models use Cellular Automata (CA) to simulate fire propagation. A grid or mesh of the terrain is provided, along with maps for parameters like fuel properties, wind speed, humidity and others. The CA is basically a way to propagate an ignition state, based on minimum travel times, between adjacent cells."]]
-   [:div.index-item
-    [:div.index-title "Even another blog Post"]
-    [:div.index-date "04-20-2016"]
-    [:div.index-description "Forest fire numerical models use Cellular Automata (CA) to simulate fire propagation. A grid or mesh of the terrain is provided, along with maps for parameters like fuel properties, wind speed, humidity and others. The CA is basically a way to propagate an ignition state, based on minimum travel times, between adjacent cells."]
-    [:div.fgm-wrapper
-     [:canvas#fgm-parallel
-      {:height "400", :width "400"}
-      "Consider updating your browser."]]
-    [:button.actionbutton {:onclick "smart.run()"} "►"]]])
+

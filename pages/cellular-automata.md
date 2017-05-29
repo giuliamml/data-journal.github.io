@@ -50,7 +50,7 @@ function naiveSpatialLoop(){
    t = tn;
    tn = Infinity;
 
-
+    
    //Spatial loop that looks for active cells,
    //ie, cells with ignition time = t
    for ( row = 0; row < rows; row++){
