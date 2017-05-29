@@ -20,6 +20,14 @@
   [layout content]
   (prewalk #(if (=  % [:div :yld]) content %) layout))
 
+(defn string->date
+  [string]
+  (if string
+    (->> (string/split string #" ")
+         (map #(Integer. %))
+         (apply t/date-time))
+    (prn "Error: Date string is nil")))
+
 (defn blog-as-data
   "Builds the blog data structure from the path of the markdown files of each page"
   [md-path]
@@ -32,7 +40,7 @@
                    (-> blog-map
                        (assoc-in [slug :title]  (-> title first))
                        (assoc-in [slug :subtitle] (-> subtitle first))
-                       (assoc-in [slug :date] (-> date first))
+                       (assoc-in [slug :date] (-> date first string->date))
                        (assoc-in [slug :content] hiccup-content)))) {})))
 ;;TODO validate output with spec. Each markdown should have a date, title and subtitle
 
@@ -42,36 +50,28 @@
        (map string/capitalize)
        (string/join " ")))
 
-(defn string->date
-  [string]
-  (if string
-    (->> (string/split string #" ")
-         (map #(Integer. %))
-         (apply t/date-time))
-    (prn "Error: Date string is nil")))
-
 (defn enrich-with-dates
   "receives the blog data structure and enriches it with date info. Basically bringing the date
    of each post to the the root level"
   [blog]
   (let [dates (->> blog
-                   (map (fn [[k {:keys [:date]}]] {:slug k :date (string->date date) :short-name (slug->short-title k)}))
+                   (map (fn [[k {:keys [:date]}]] {:slug k :date date :short-name (slug->short-title k)}))
                    (sort-by :date))]
     (assoc blog :dates dates)))
 
 (defn build! [root]
   (refresh)
   (let [blog-structure (-> root blog-as-data enrich-with-dates)]
-    ;;(front-page! blog-structure)
     (->> (dissoc blog-structure :dates) ;;Iterate over pages only
          (map (fn [[slug-keyword {:keys [:title :subtitle :content]}]];TODO should be doseq because side effects
-                (let [menu (menu (:dates blog-structure))
+                (let [meta-title (str "Data Journal - " title)
+                      menu (menu (:dates blog-structure))
                       modal-menu (modal-menu (:dates blog-structure))
-                      full-page (layout title subtitle content menu modal-menu twitter-el disqus-el)
+                      full-page (layout meta-title subtitle content menu modal-menu twitter-el disqus-el)
                       path (str root "/" (name slug-keyword) ".html")
                       front-page (layout "Front-page"
                                          "front-page-description"
-                                         (front-page-hiccup)
+                                         (front-page-hiccup (dissoc blog-structure :dates))
                                          menu
                                          modal-menu
                                          nil nil)]
