@@ -6,6 +6,11 @@ body {
   color: rgba(0,0,0,0.8);
 }
 
+a {
+    color: rgba(0,0,0,0.8);
+    text-decoration: none;
+}
+
 /*Side Bar*/
 #side-bar {
   width: 270px;
@@ -30,13 +35,8 @@ body {
   font-size: 20px;
 }
 
-#social-media, a {
-  color: rgba(0,0,0,0.8);
+#social-media a {
   margin-left: 10px;
-}
-
-#side-bar, a {
-  text-decoration: none;
 }
 
 #menu {

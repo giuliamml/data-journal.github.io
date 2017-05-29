@@ -22,11 +22,14 @@
 (defn front-page-hiccup
   [blog-structure]
   [:div.index-container
-   (map (fn [[slug {:keys [:title :subtitle :date]}]]
-          [:div.index-item
-           [:div.index-title [:a {:href (str (name slug) ".html")} title]]
-           [:div.index-date (f/unparse (f/formatters :year-month-day) date)]
-           [:div.index-description subtitle]]) blog-structure)])
+   (->> blog-structure
+        (into '())
+        (sort-by (fn [[slug {:keys [:title :subtitle :date]}]] date))
+        (map (fn [[slug {:keys [:title :subtitle :date]}]]
+               [:div.index-item
+                [:div.index-title [:a {:href (str (name slug) ".html")} title]]
+                [:div.index-date (f/unparse (f/formatters :year-month-day) date)]
+                [:div.index-description subtitle]])))])
 
 (def twitter-el
   [:a.twitter-share-button
