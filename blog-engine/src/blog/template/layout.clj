@@ -24,12 +24,15 @@
   [:div.index-container
    (->> blog-structure
         (into '())
-        (sort-by (fn [[slug {:keys [:title :subtitle :date]}]] date))
-        (map (fn [[slug {:keys [:title :subtitle :date]}]]
+        (sort-by (fn [[slug {:keys [:date]}]] date))
+        (map (fn [[slug {:keys [:title :subtitle :date :tags]}]]
                [:div.index-item
                 [:div.index-title [:a {:href (str (name slug) ".html")} title]]
+                (when tags
+                  [:div.index-tags (map (fn [tag] [:span.index-tag tag]) tags)])
                 [:div.index-date (f/unparse (f/formatters :year-month-day) date)]
-                [:div.index-description subtitle]])))])
+                [:div.index-description subtitle]
+                [:div.continue-reading [:a {:href (str (name slug) ".html")} "Continue Reading »"]]])))])
 
 (def twitter-el
   [:a.twitter-share-button

@@ -28,6 +28,12 @@
          (apply t/date-time))
     (prn "Error: Date string is nil")))
 
+(defn string->tags
+  [string]
+  (if string
+    (-> string first (string/split #","))
+    (prn "Error: Tags string is nil")))
+
 (defn blog-as-data
   "Builds the blog data structure from the path of the markdown files of each page"
   [md-path]
@@ -35,13 +41,14 @@
        (reduce (fn [blog-map page]
                  (let [slug (->> page .getName (re-find #"([a-z\d-]+)") last keyword)
                        html-with-meta (-> page slurp (md/md-to-html-string-with-meta :inhibit-separator "%"))
-                       {:keys [html] {:keys [:title :subtitle :date]} :metadata} html-with-meta
+                       {:keys [html] {:keys [:title :subtitle :date :tags]} :metadata} html-with-meta
                        hiccup-content (->> html hickory/parse-fragment (mapv hickory/as-hiccup) concat (into [:div]))]
                    (-> blog-map
                        (assoc-in [slug :title]  (-> title first))
                        (assoc-in [slug :subtitle] (-> subtitle first))
                        (assoc-in [slug :date] (-> date first string->date))
-                       (assoc-in [slug :content] hiccup-content)))) {})))
+                       (assoc-in [slug :content] hiccup-content)
+                       (assoc-in [slug :tags] (string->tags tags))))) {})))
 ;;TODO validate output with spec. Each markdown should have a date, title and subtitle
 
 (defn slug->short-title

@@ -176,7 +176,7 @@ a {
     text-decoration: underline;
 }
 
-/*Intro*/
+/*Front-page*/
 .index-item {
     padding: 35px 0px 35px 0px;
 }
@@ -191,7 +191,25 @@ a {
 .index-description {
     padding-top: 15px;
 }
-/*Intro*/
+
+.index-tags {
+    margin: 5px 0 5px 0;
+}
+
+.index-tag {
+    padding: 3px 10px 3px 10px;
+    color: white;
+    background-color: rgba(150,150,150,0.8)!important;
+    border-radius: 16px;
+    margin: 0px 5px 0px 5px;
+    font-size: 13px;
+    line-height: 23px;
+}
+
+.continue-reading{
+    padding-top: 10px;
+}
+/*Front-page*/
 
 /*Pages*/
 #container {

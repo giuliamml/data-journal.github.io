@@ -1,5 +1,6 @@
 Title: Melhor da Zona or: How I Learned to Stop Worrying and Love Data Transparency
 Subtitle: This talk is about how a culture of data sharing and transparency in government institutions, fosters important and unexpected changes to society. To illustrate this point, I\'m going to talk about Melhor da Zona, a web app that lets you search the best driving schools in your area.
+Tags: Open Data,Journalism,Government Data,UX
 Date: 2016 10 10
 
 # Melhor da Zona or: How I Learned to Stop Worrying and Love Data Transparency
