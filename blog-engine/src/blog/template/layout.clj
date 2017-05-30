@@ -125,7 +125,7 @@
 
       [:div#about
        [:p#about-title "About:"]
-       [:p "Simulating reality since 2015"]]]]
+       [:p "A place for tech and weird numerical experimentalism. Be welcome. Enter at you own peril."]]]]
 
     [:div#container
      [:div#content
