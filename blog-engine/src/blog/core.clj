@@ -66,6 +66,8 @@
                    (sort-by :date))]
     (assoc blog :dates dates)))
 
+(def base-url "http://datajournal.co.uk")
+
 (defn build! [root]
   (refresh)
   (let [blog-structure (-> root blog-as-data enrich-with-dates)]
@@ -81,9 +83,11 @@
                                          (front-page-hiccup (dissoc blog-structure :dates))
                                          menu
                                          modal-menu
-                                         nil nil)]
+                                         nil nil)
+                      sitemap (sitemap base-url (dissoc blog-structure :dates))]
                   (spit path (hiccup/html full-page))
-                  (spit (str root "/index.html") (hiccup/html front-page))))))))
+                  (spit (str root "/index.html") (hiccup/html front-page))
+                  (spit (str root "/sitemap.txt") sitemap )))))))
 
 (defn main
   [& args]

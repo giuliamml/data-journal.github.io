@@ -149,4 +149,11 @@
     ;;cellular automata post
     ]])
 
+(defn sitemap [root blog-structure]
+  (->> blog-structure
+       (map (fn [[k v]] (name k)))
+       (into '("index"))
+       (map (fn [slug] (str root "/" slug ".html")))
+       (reduce (fn [map-str page] (str map-str page "\n")) "")))
+
 
