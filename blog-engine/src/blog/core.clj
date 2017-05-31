@@ -8,7 +8,8 @@
             [clojure.tools.namespace.repl :refer [refresh]]
             [clojure.walk :refer [prewalk]]
             [clojure.string :as string]
-            [clj-time.core :as t])
+            [clj-time.core :as t]
+            [clojure-watch.core :refer [start-watch]])
   (:gen-class))
 
 (def root "/Users/fsousa/src/blog-engine")
@@ -88,6 +89,13 @@
                   (spit path (hiccup/html full-page))
                   (spit (str root "/index.html") (hiccup/html front-page))
                   (spit (str root "/sitemap.txt") sitemap )))))))
+
+(start-watch [{:path  (str root "/pages/")
+               :event-types [:create :modify :delete]
+               :bootstrap (fn [path] (println "Starting to watch " path))
+               :callback (fn [event filename] (do (build! root)
+                                                  (prn (str "File " filename " with event " event))))
+               :options {:recursive true}}])
 
 (defn main
   [& args]
