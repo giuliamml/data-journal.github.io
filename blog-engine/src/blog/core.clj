@@ -79,8 +79,8 @@
                       modal-menu (modal-menu (:dates blog-structure))
                       full-page (layout meta-title subtitle content menu modal-menu twitter-el disqus-el)
                       path (str root "/" (name slug-keyword) ".html")
-                      front-page (layout "Front-page"
-                                         "front-page-description"
+                      front-page (layout index-title
+                                         index-description
                                          (front-page-hiccup (dissoc blog-structure :dates))
                                          menu
                                          modal-menu

@@ -34,6 +34,9 @@
                 [:div.index-description subtitle]
                 [:div.continue-reading [:a {:href (str (name slug) ".html")} "Continue Reading »"]]])))])
 
+(def short-description
+  "A place for tech and weird numerical experimentalism. Be welcome. Enter at you own peril.")
+
 (def twitter-el
   [:a.twitter-share-button
    {:href "https://twitter.com/share" :data-via "fjmarujo" :data-size "large"} "Tweet"
@@ -125,7 +128,7 @@
 
       [:div#about
        [:p#about-title "About:"]
-       [:p "A place for tech and weird numerical experimentalism. Be welcome. Enter at you own peril."]]]]
+       [:p short-description]]]]
 
     [:div#container
      [:div#content
@@ -155,5 +158,11 @@
        (into '("index"))
        (map (fn [slug] (str root "/" slug ".html")))
        (reduce (fn [map-str page] (str map-str page "\n")) "")))
+
+(def index-title
+  (str "Data Journal - " short-description))
+
+(def index-description
+  "Add short description.")
 
 
