@@ -13,6 +13,7 @@
   (:gen-class))
 
 (def root "/Users/fsousa/src/blog-engine")
+(def base-url "http://datajournal.co.uk")
 
 (defn get-pages [root] (->> (str root "/pages/*.md") glob/glob))
 
@@ -67,28 +68,27 @@
                    (sort-by :date))]
     (assoc blog :dates dates)))
 
-(def base-url "http://datajournal.co.uk")
 
 (defn build! [root]
-  (refresh)
-  (let [blog-structure (-> root blog-as-data enrich-with-dates)]
-    (->> (dissoc blog-structure :dates) ;;Iterate over pages only
-         (map (fn [[slug-keyword {:keys [:title :subtitle :content]}]];TODO should be doseq because side effects
-                (let [meta-title (str "Data Journal - " title)
-                      menu (menu (:dates blog-structure))
-                      modal-menu (modal-menu (:dates blog-structure))
-                      full-page (layout meta-title subtitle content menu modal-menu twitter-el disqus-el)
-                      path (str root "/" (name slug-keyword) ".html")
-                      front-page (layout index-title
-                                         index-description
-                                         (front-page-hiccup (dissoc blog-structure :dates))
-                                         menu
-                                         modal-menu
-                                         nil nil)
-                      sitemap (sitemap base-url (dissoc blog-structure :dates))]
-                  (spit path (hiccup/html full-page))
-                  (spit (str root "/index.html") (hiccup/html front-page))
-                  (spit (str root "/sitemap.txt") sitemap )))))))
+  (refresh);;reloads namespaces that have been changed
+  (let [page-structure (blog-as-data root)
+        full-blog-structure (enrich-with-dates page-structure)
+        menu (menu (:dates full-blog-structure))
+        modal-menu (modal-menu (:dates full-blog-structure))
+        front-page (layout index-title
+                           index-description
+                           (front-page-hiccup page-structure)
+                           menu
+                           modal-menu
+                           nil nil)
+        sitemap (sitemap base-url page-structure)]
+    (doseq [[slug-keyword {:keys [:title :subtitle :content]}] page-structure]
+      (let [meta-title (str "Data Journal - " title)
+            full-page (layout meta-title subtitle content menu modal-menu twitter-el disqus-el)
+            path (str root "/" (name slug-keyword) ".html")]
+        (spit path (hiccup/html full-page))))
+    (spit (str root "/index.html") (hiccup/html front-page))
+    (spit (str root "/sitemap.txt") sitemap )))
 
 (start-watch [{:path  (str root "/pages/")
                :event-types [:create :modify :delete]
