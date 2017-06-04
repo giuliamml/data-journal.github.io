@@ -1,5 +1,5 @@
 Title: Forest Fires and Parallel Cellular Automata, going from 8x to 240x faster with GPUs
-Subtitle: Forest fire numerical models use Cellular Automata (CA) to simulate fire propagation. A grid or mesh of the terrain is provided, along with maps for parameters like fuel properties, wind speed, humidity and others. The CA is basically a way to propagate an ignition state, based on minimum travel times, between adjacent cells.
+Subtitle: In this blog post, I'll show you two Cellular Automata algorithms used in Forest Fire Simulation. The models differ in the way they use the GPU architecture to boost performance. The first model was implemented in a trivial way, without much concern for the unique memory access pattern of the GPU. The second algorithm addresses this issue and outperforms the first by two orders of magnitude.
 Tags: Cellular Automata,Numerical,Algorithms
 Date: 2015 6 21
 Thumb: <div class="fgm-wrapper"><canvas id="fgm-serial" width="200" height="200">Consider updating your browser</canvas></div><button onclick="dumb.run()" class="actionbutton">►</button>
@@ -12,7 +12,7 @@ Other methods exist, like vector based methods, that compute the position of the
 
 Although the last type is much more accurate, the first two are the *de facto* tools for fire modeling due to the compromise between computing speed and accuracy.
 
-In this blog post, I'll show you two versions of a CA model, a trivial and a parallel version I developed during my Masters. Both versions were ported to[Nvidia GPUs](https://en.wikipedia.org/wiki/CUDA) with the aim of speeding up the existing single core implementation.
+In this blog post, I'll show you two versions of a CA model, a trivial and a parallel version I developed during my Masters. Both versions were ported to [Nvidia GPUs](https://en.wikipedia.org/wiki/CUDA) with the aim of speeding up the existing single core implementation.
 
 Initially, a direct, naive port was attempted which wasn't very performant. This lead me to reformulate the algorithm so that it was fully parallel and therefore, more suitable to the many-core architecture of the GPU.
 
@@ -212,4 +212,4 @@ The two models side by side, with the same iteration interval of 100ms. Notice t
 <button onclick="smart2.run();dumb2.run();" class="actionbutton">►</button>
 
 
-And that's it. If you want to know more just follow the link and read the<a href="https://github.com/fjsousa/fjsousa.github.io/blob/master/assets/docs/sousa-etall.pdf" target="_blank">white paper</a>.
+And that's it. If you want to know more just follow the link and read the <a href="https://github.com/fjsousa/fjsousa.github.io/blob/master/assets/docs/sousa-etall.pdf" target="_blank">white paper</a>.

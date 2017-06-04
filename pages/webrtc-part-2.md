@@ -1,12 +1,12 @@
 Title: WebRTC Parallel Processing with a 2D partial difference equations solver (part-2)
-Subtitle: In my last post, I introduced a CFD code which solved a partial differences equation implemented in JavaScript. The starting point, was to use a parallel computational task and distribute it among several browsers with Webrtc. In this post, I\'ll show you how I accomplished just that.
+Subtitle: In my last post, I introduced a CFD code which solved a partial differences equation implemented in JavaScript. The starting point, was to use a parallel computational task and distribute it among several browsers with Webrtc. In this post, I'll show you how I accomplished just that.
 Tags: CFD, Web-RTC,Mathematical Modelling
 Date: 2015 3 20
 Thumb: <img alt="gif time" src="assets/img/webrtc/gif.gif" title="gif time">
 
 # WebRTC Parallel Processing (part-2)
 
-In my[last post](/webrtc-part1.html), I introduced a CFD code which solved a partial differences equation implemented in JavaScript. The starting point, was to use a parallel computational task and distribute it among several browsers with Webrtc. In this post, I'll show you how I accomplished just that.
+In my [last post](/webrtc-part1.html), I introduced a CFD code which solved a partial differences equation implemented in JavaScript. The starting point, was to use a parallel computational task and distribute it among several browsers with Webrtc. In this post, I'll show you how I accomplished just that.
 
 I've devised a solution where I have several browsers in different computers. Each browser has a peer connection and is connected to the same URL. I'm using a master/server approach, where one peer distributes work among the other peers and judges if the convergence criteria is met.
 
@@ -16,7 +16,7 @@ WebRTC is a browser specification to enable peer-to-peer communication in the br
 
 For production applications, you'll need an additional server that relays messages when both peers can't "see each other", ie, both are behind a firewall. However, we'll simplify this step by running the experiment inside a local network.
 
-To abstract the browser implementation of WebRTC, I'm using[peer.js](http://peerjs.com/).
+To abstract the browser implementation of WebRTC, I'm using [peer.js](http://peerjs.com/).
 
 ## Peer.js
 
@@ -152,7 +152,7 @@ In the client code, we ensure that the peer connects with an unique id with a si
 
 We'll use browser fingerprinting to generate a string unique to the browser and then add a random string plus a timestamp. This technique still doesn't guarantee an unique id but it greatly reduces the probability of two peers connecting with the same id, because there would have to be two peer connections, comming from the same browser, in less than a microsecond, to have duplicated ids.
 
-For fingerprinting, we'll use the lib[Fingerprint2](https://github.com/Valve/fingerprintjs2) by Valentin Vasilyev.
+For fingerprinting, we'll use the lib [Fingerprint2](https://github.com/Valve/fingerprintjs2) by Valentin Vasilyev.
 
 
 ```JavaScript
@@ -234,7 +234,7 @@ allPeers.update(function (peers) {
 
 And now we should have something to do in the other tabs.
 
-You can see the whole code[here](https://github.com/fjsousa/not-so-basic-ss).
+You can see the whole code [here](https://github.com/fjsousa/not-so-basic-ss).
 
 
 <!-- **** allow discovery****??? -->
@@ -268,7 +268,7 @@ The client folder is the code which will run on the browsers. The client code is
 
 `master.js` has the `Master` class with methods to launch the worker peers and judge convergence.
 
-`block.js` has the `Block` class with methods to start the poisson solver and emit the boundaries to the neighbour peers. The solver has to run inside a[webworker](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/basic_usage) otherwise it would block the web page and crash the browser. This is the `worker.js` file.
+`block.js` has the `Block` class with methods to start the poisson solver and emit the boundaries to the neighbour peers. The solver has to run inside a [webworker](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/basic_usage) otherwise it would block the web page and crash the browser. This is the `worker.js` file.
 
 `poisson.js` is the solver covered in the [previous post](/webrtc-part1.html).
 

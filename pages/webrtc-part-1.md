@@ -1,5 +1,5 @@
 Title: WebRTC Parallel Processing with a 2D partial difference equations solver (part-1)
-Subtitle: I did a little experiment with WebRTC and a CFD (Computational Fluid Dynamics) solver I wrote. I wanted to see what could be done with webRTC and browser parallel computing. First, I needed a problem that was computationally intense and suitable to parallelization. CFD suited that class of problems and plus, coming from mechanical engineering, it was a type of problems I was decently familiar with.
+Subtitle: I did a little experiment with WebRTC and a CFD (Computational Fluid Dynamics) solver I wrote. I wanted to see what could be done with webRTC and browser parallel computing. First, I needed a problem that was computationally intense and suitable to parallelization. CFD suited that class of problems and plus, coming from mechanical engineering, it was a type of problem I was decently familiar with.
 Tags: CFD, Web-RTC,Mathematical Modelling
 Date: 2015 02 27
 Thumb: <img alt="Numerical Field" src="assets/img/webrtc/numerical.png" title="Numerical">
@@ -9,7 +9,7 @@ Thumb: <img alt="Numerical Field" src="assets/img/webrtc/numerical.png" title="N
 I did a little experiment with WebRTC and a CFD (Computational Fluid Dynamics) solver I wrote.
 I wanted to see what could be done with webRTC and browser parallel computing. First, I needed a problem that was
 computationally intense and suitable to parallelization. CFD suited that class of problems and plus, coming from
-mechanical engineering, it was a type of problems I was decently familiar with.
+mechanical engineering, it was a type of problem I was decently familiar with.
 
 CFD is a class of numerical methods to solve differential equations from fluid flow problems. We want to solve
 a given set of equation to compute several fields like flow velocity, temperature and other physical properties.
@@ -21,7 +21,7 @@ lot of communication between nodes at each iteration. This way, the communicatio
 In this first post, I'll write about the solver itself.  In a second posts, I'll write about how I used WebRtC to distribute
 the computation across several browsers. In a third post, I'll write about performance considerations.
 
-## The Poisson Equation!
+## The Poisson Equation
 
 The equation I'm solving is in the form of
 
