@@ -1,5 +1,5 @@
-http://datajournal.co.uk/webrtc-part-2.html
-http://datajournal.co.uk/webrtc-part-1.html
-http://datajournal.co.uk/open-data.html
+http://datajournal.co.uk
 http://datajournal.co.uk/cellular-automata.html
-http://datajournal.co.uk/index.html
+http://datajournal.co.uk/open-data.html
+http://datajournal.co.uk/webrtc-part-1.html
+http://datajournal.co.uk/webrtc-part-2.html
