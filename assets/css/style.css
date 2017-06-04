@@ -201,7 +201,7 @@ a {
     color: white;
     background-color: rgba(150,150,150,0.8)!important;
     border-radius: 16px;
-    margin: 0px 5px 0px 5px;
+    margin: 0px 10px 0px 0px;
     font-size: 13px;
     line-height: 23px;
 }
@@ -209,6 +209,15 @@ a {
 .continue-reading{
     padding-top: 10px;
 }
+
+.index-thumb {
+    padding-top: 20px;
+}
+
+.index-thumb img {
+    width: 250px;
+}
+
 /*Front-page*/
 
 /*Pages*/

@@ -25,17 +25,16 @@
    (->> blog-structure
         (into '())
         (sort-by (fn [[slug {:keys [:date]}]] date))
-        (map (fn [[slug {:keys [:title :subtitle :date :tags]}]]
+        (map (fn [[slug {:keys [:title :subtitle :date :tags :thumb]}]]
                [:div.index-item
                 [:div.index-title [:a {:href (str (name slug) ".html")} title]]
                 (when tags
                   [:div.index-tags (map (fn [tag] [:span.index-tag tag]) tags)])
                 [:div.index-date (f/unparse (f/formatters :year-month-day) date)]
+                (when thumb
+                  (into [:div.index-thumb] thumb))
                 [:div.index-description subtitle]
-                [:div.continue-reading [:a {:href (str (name slug) ".html")} "Continue Reading »"]]
-                [:div {:class "fgm-wrapper"}
-                 [:canvas {:id "fgm-serial", :width "400", :height "400"} "Consider updating your browser."]]
-                [:button {:onclick "dumb.run()", :class "actionbutton"} "►"]])))])
+                [:div.continue-reading [:a {:href (str (name slug) ".html")} "Continue Reading »"]]])))])
 
 (def short-description
   "A place for tech and weird numerical experimentalism. Be welcome. Enter at you own peril.")

@@ -2,6 +2,7 @@ Title: WebRTC Parallel Processing with a 2D partial difference equations solver 
 Subtitle: I did a little experiment with WebRTC and a CFD (Computational Fluid Dynamics) solver I wrote. I wanted to see what could be done with webRTC and browser parallel computing. First, I needed a problem that was computationally intense and suitable to parallelization. CFD suited that class of problems and plus, coming from mechanical engineering, it was a type of problems I was decently familiar with.
 Tags: CFD, Web-RTC,Mathematical Modelling
 Date: 2015 02 27
+Thumb: <img alt="Numerical Field" src="assets/img/webrtc/numerical.png" title="Numerical">
 
 # WebRTC Parallel Processing (part-1)
 

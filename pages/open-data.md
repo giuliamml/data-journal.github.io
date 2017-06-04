@@ -5,7 +5,7 @@ Date: 2016 10 10
 
 # Melhor da Zona or: How I Learned to Stop Worrying and Love Data Transparency
 
-The project["Melhor da Zona"](http://www.melhordazona.com) (which roughly translates to  "Best in the Area") was presented at[Pixels.camp](https://pixels.camp) with a talk entitled *Melhor Da Zona or: How I Learned to Stop Worrying and Love Data Transparency*. This is the description of the talk that was submitted:
+!The project["Melhor da Zona"](http://www.melhordazona.com) (which roughly translates to  "Best in the Area") was presented at[Pixels.camp](https://pixels.camp) with a talk entitled *Melhor Da Zona or: How I Learned to Stop Worrying and Love Data Transparency*. This is the description of the talk that was submitted:
 
 > This talk is about how a culture of data sharing and transparency in government institutions, fosters important and unexpected changes to society. To illustrate this point, I'm going to talk about **Melhor da Zona**, a web app that lets you search the best driving schools in your area.
 
