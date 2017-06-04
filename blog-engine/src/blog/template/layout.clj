@@ -40,7 +40,7 @@
                 [:div.continue-reading [:a {:href (str (name slug) ".html")} "Continue Reading »"]]])))])
 
 (def short-description
-  "A place for tech and weird numerical experimentalism. Be welcome.")
+  "A place for tech and numerical experimentalism. Be welcome.")
 
 (def twitter-el
   [:a.twitter-share-button
@@ -167,6 +167,7 @@
   (str "Data Journal - " short-description))
 
 (def index-description
-  "Add short description.")
+  "This is a blog about Numerical Algorithms and Software Engineering. I write about experiments I did or
+  ongoing work which I think is relevant to the subject. Subscribe to the newsletter to get the latest updates. I won't blog that frequently so don't worry, you won't get spammed!")
 
 
