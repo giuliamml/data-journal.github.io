@@ -11,6 +11,10 @@ a {
     text-decoration: none;
 }
 
+.nowrap {
+    white-space: nowrap;
+}
+
 /*Side Bar*/
 #side-bar {
   width: 270px;

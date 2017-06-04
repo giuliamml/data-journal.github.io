@@ -29,7 +29,10 @@
                [:div.index-item
                 [:div.index-title [:a {:href (str (name slug) ".html")} title]]
                 (when tags
-                  [:div.index-tags (map (fn [tag] [:span.index-tag tag]) tags)])
+                  [:div.index-tags (map (fn [tag]
+                                          (if (<= 7 (count tag))
+                                            [:span.index-tag.nowrap tag]
+                                            [:span.index-tag tag])) tags)])
                 [:div.index-date (f/unparse (f/formatters :year-month-day) date)]
                 (when thumb
                   (into [:div.index-thumb] thumb))
