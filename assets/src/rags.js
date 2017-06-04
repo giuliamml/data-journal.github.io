@@ -42,7 +42,7 @@ var MapRags = function (el, map, n, m, scale){
   this.c4 = [255, 255, 0];//yellow
   this.c5 = [255, 0, 0];//red
 
-  if (scale && scale.max !== undefined && scale.min !== undefined){ 
+  if (scale && scale.max !== undefined && scale.min !== undefined){
     this.max = scale.max;
     this.min = scale.min;
     return;
@@ -50,7 +50,7 @@ var MapRags = function (el, map, n, m, scale){
 
   //If scale is undefined, get max and min from map
   this.max = Math.max.apply(null, this.map);
-  this.min = Math.min.apply(null, this.map);  
+  this.min = Math.min.apply(null, this.map);
 };
 
 MapRags.prototype.update2D = function (map) {
@@ -130,7 +130,7 @@ MapRags.prototype.mapColor = function(value) {
   var mg = (colorMax[1] - colorMin[1])/(valueMax - valueMin);
   var mb = (colorMax[2] - colorMin[2])/(valueMax - valueMin);
 
-  var br = colorMin[0] - mr * valueMin; 
+  var br = colorMin[0] - mr * valueMin;
   var bg = colorMin[1] - mg * valueMin;
   var bb = colorMin[2] - mb * valueMin;
 
@@ -139,11 +139,11 @@ MapRags.prototype.mapColor = function(value) {
   var b = Math.round( mb * value + bb);
 
   return [r, g, b];
-};  
+};
 
 MapRags.prototype.updateMap = function (map) {
   if (!!map[0].length)
     return this.update2D(map);//TODO update 2d breaks with many rows and cols
-  
+
   this.map = map;
 }

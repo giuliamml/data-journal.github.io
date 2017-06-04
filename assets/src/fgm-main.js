@@ -11,7 +11,7 @@ var ndist = calcDist(ncols, nrows);
 
 
 function initmap(cols, rows, value){
-  
+
   var array = new Array(cols*rows);
 
   for (var i = 0;  i < array.length; i++) {
@@ -24,13 +24,13 @@ function initmap(cols, rows, value){
 }
 
 function rosmap(cols, rows){
-  
+
   var array = new Array(cols*rows);
   var r;
 
   for (var row = 0;  row < rows; row++) {
     for (var col = 0;  col < cols; col++) {
-      
+
       if ( col > cols/3 && col < cols*2/3){
         if (row < rows*2/3 && row > rows/3){
           r = Math.random()*2;
@@ -52,7 +52,7 @@ function rosmap(cols, rows){
 function calcDist(ncol, nrow){
   var cellwd = cellht = 1;
   var array = [];
-  
+
   for ( n = 0; n < ncol.length; n++ ){
     array[n] = Math.sqrt ( ncol[n] * cellwd * ncol[n] * cellwd + nrow[n] * cellht * nrow[n] * cellht );
   }
@@ -72,19 +72,19 @@ $(document).ready(function () {
   }
 
   if (document.getElementById('fgm-serial')){
-    var sRags = new MapRags('fgm-serial', initmap(cols, rows, Infinity), rows, cols, {max: 20, min: 0}); 
+    var sRags = new MapRags('fgm-serial', initmap(cols, rows, Infinity), rows, cols, {max: 20, min: 0});
     sRags.render();
     dumb = new Dumb('fgm-serial');
   }
 
   if (document.getElementById('fgm-parallel-twin')){
-    var ptwinRags = new MapRags('fgm-parallel-twin', initmap(cols, rows, 5), rows, cols, {max: 20, min: 0}); 
+    var ptwinRags = new MapRags('fgm-parallel-twin', initmap(cols, rows, 5), rows, cols, {max: 20, min: 0});
     ptwinRags.render();
     smart2 = new Smart('fgm-parallel-twin');
   }
 
   if (document.getElementById('fgm-serial-twin')){
-    var stwinRags = new MapRags('fgm-serial-twin', initmap(cols, rows, Infinity), rows, cols, {max: 20, min: 0}); 
+    var stwinRags = new MapRags('fgm-serial-twin', initmap(cols, rows, Infinity), rows, cols, {max: 20, min: 0});
     stwinRags.render();
     dumb2 = new Dumb('fgm-serial-twin');
   }
@@ -110,7 +110,7 @@ Dumb.prototype.run = function() {
   var ignitionMap = initmap(cols, rows, Infinity);
   var tn = t = 0;
 
-  var rags = new MapRags(this.el, ignitionMap, rows, cols, {max: 20, min: 0}); 
+  var rags = new MapRags(this.el, ignitionMap, rows, cols, {max: 20, min: 0});
 
   function dumbSpatialLoop(){
 
@@ -118,19 +118,19 @@ Dumb.prototype.run = function() {
     tn = Infinity;
 
 
-    //Spatial loop that looks for active cells, ie, cells with 
+    //Spatial loop that looks for active cells, ie, cells with
     //ignition time = t
     for ( row = 0; row < rows; row++){
       for ( col = 0; col < cols; col++){
         var idx = col + cols*row;
-        
+
         //Update tn, so that tn is the minimum ignition time for all cells,
         //in a given iteration
         if ( ignitionMap[idx] > t && tn > ignitionMap[idx] ){
 
           tn = ignitionMap[idx];
           continue;
-        } 
+        }
 
         //skips cells that already burned
         if ( ignitionMap[idx] !== t )
@@ -178,17 +178,17 @@ Dumb.prototype.run = function() {
       if (itt++ % 1 === 0){
 
         rags.updateMap(ignitionMap);
-        rags.render();      
+        rags.render();
       }
 
       if (tn === Infinity) {
         that.dumbLock = false;
         return;
       }
-      
+
       call();
-      
-    }, 100);  
+
+    }, 100);
   })();
 }
 
@@ -210,7 +210,7 @@ Smart.prototype.run = function() {
   var ignitionMap = initmap(cols, rows, 5);
   var monitor;
 
-  var rags = new MapRags(this.el, ignitionMap, rows, cols, {max: 20, min: 0}); 
+  var rags = new MapRags(this.el, ignitionMap, rows, cols, {max: 20, min: 0});
 
   function smartSpatialLoop(){
 
@@ -234,13 +234,13 @@ Smart.prototype.run = function() {
           if ( !(nrow >= 0 && nrow < rows && ncol >= 0 && ncol < cols))
             continue;
 
-          // compute igniton time considering that the flame moves from the neighbour to the 
+          // compute igniton time considering that the flame moves from the neighbour to the
           // center cell
           var igntime = ignitionMap[nidx] + ndist[n] / rosmap[nidx];
           minArray.push(igntime);
 
         }
-        //associate the minimum of the propagation times to the ignition time 
+        //associate the minimum of the propagation times to the ignition time
         // of the center cell
         ignitionMap[idx] = Math.min.apply(null, minArray);;
 
@@ -257,7 +257,7 @@ Smart.prototype.run = function() {
       if (itt++ % 1 === 0){
 
         rags.updateMap(ignitionMap);
-        rags.render();      
+        rags.render();
       }
 
       if (monitor === ignitionMap[0]){
@@ -266,10 +266,9 @@ Smart.prototype.run = function() {
       }
 
       monitor = ignitionMap[0];
-      
+
       call();
-      
-    }, 100);  
+
+    }, 100);
   })();
 }
-
