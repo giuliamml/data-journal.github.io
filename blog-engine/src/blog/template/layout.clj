@@ -32,7 +32,10 @@
                   [:div.index-tags (map (fn [tag] [:span.index-tag tag]) tags)])
                 [:div.index-date (f/unparse (f/formatters :year-month-day) date)]
                 [:div.index-description subtitle]
-                [:div.continue-reading [:a {:href (str (name slug) ".html")} "Continue Reading »"]]])))])
+                [:div.continue-reading [:a {:href (str (name slug) ".html")} "Continue Reading »"]]
+                [:div {:class "fgm-wrapper"}
+                 [:canvas {:id "fgm-serial", :width "400", :height "400"} "Consider updating your browser."]]
+                [:button {:onclick "dumb.run()", :class "actionbutton"} "►"]])))])
 
 (def short-description
   "A place for tech and weird numerical experimentalism. Be welcome. Enter at you own peril.")

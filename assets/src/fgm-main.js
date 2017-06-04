@@ -64,22 +64,30 @@ function calcDist(ncol, nrow){
 //initialize stuff
 var dumb, smart, dumb2, smart2;
 $(document).ready(function () {
-  var pRags = new MapRags('fgm-parallel', initmap(cols, rows, 5), rows, cols, {max: 20, min: 0}); 
-  pRags.render();
 
-  var sRags = new MapRags('fgm-serial', initmap(cols, rows, Infinity), rows, cols, {max: 20, min: 0}); 
-  sRags.render();
+  if (document.getElementById('fgm-parallel')){
+    var pRags = new MapRags('fgm-parallel', initmap(cols, rows, 5), rows, cols, {max: 20, min: 0});
+    pRags.render();
+    smart = new Smart('fgm-parallel');
+  }
 
-  var ptwinRags = new MapRags('fgm-parallel-twin', initmap(cols, rows, 5), rows, cols, {max: 20, min: 0}); 
-  ptwinRags.render();
+  if (document.getElementById('fgm-serial')){
+    var sRags = new MapRags('fgm-serial', initmap(cols, rows, Infinity), rows, cols, {max: 20, min: 0}); 
+    sRags.render();
+    dumb = new Dumb('fgm-serial');
+  }
 
-  var stwinRags = new MapRags('fgm-serial-twin', initmap(cols, rows, Infinity), rows, cols, {max: 20, min: 0}); 
-  stwinRags.render();
+  if (document.getElementById('fgm-parallel-twin')){
+    var ptwinRags = new MapRags('fgm-parallel-twin', initmap(cols, rows, 5), rows, cols, {max: 20, min: 0}); 
+    ptwinRags.render();
+    smart2 = new Smart('fgm-parallel-twin');
+  }
 
-  dumb = new Dumb('fgm-serial');
-  smart = new Smart('fgm-parallel');
-  dumb2 = new Dumb('fgm-serial-twin');
-  smart2 = new Smart('fgm-parallel-twin');
+  if (document.getElementById('fgm-serial-twin')){
+    var stwinRags = new MapRags('fgm-serial-twin', initmap(cols, rows, Infinity), rows, cols, {max: 20, min: 0}); 
+    stwinRags.render();
+    dumb2 = new Dumb('fgm-serial-twin');
+  }
 });
 ////////////////////
 //Serial

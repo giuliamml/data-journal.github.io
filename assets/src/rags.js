@@ -19,7 +19,7 @@ var MapRags = function (el, map, n, m, scale){
 
     if (this.h/n < 1 || this.w/m < 1)
       throw 'Cell size < 1. Increase Canvas size'
-  
+
   } else {
     throw 'Couldn\'t get canvas context';
   }
@@ -27,12 +27,12 @@ var MapRags = function (el, map, n, m, scale){
   //flatten 2d array
   if (!!map[0].length) {
     this.n = map.length;
-    this.m = map[0].length; 
+    this.m = map[0].length;
     this.update2D(map);
     //1d array init
   } else {
     this.n = n;
-    this.m = m; 
+    this.m = m;
     this.map = map;
   }
 
