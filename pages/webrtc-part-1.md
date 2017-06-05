@@ -18,7 +18,7 @@ The methods used in this type of numerical analysis are iterative, meaning that 
 function of and closer to the final solution than the previous. When you use parallel computing techniques, you end up with a
 lot of communication between nodes at each iteration. This way, the communication speed quickly becomes the bottleneck in the process.
 
-In this first post, I'll write about the solver itself.  In a second posts, I'll write about how I used WebRtC to distribute
+In this first post, I'll write about the solver itself.  In a second post, I'll write about how I used WebRtC to distribute
 the computation across several browsers. In a third post, I'll write about performance considerations.
 
 ## The Poisson Equation
@@ -61,7 +61,7 @@ It's just a way to test a solver of a differential equation, of which we have an
 The next step is to discretize the equation
 and obtain an algebraic formula for *U* that we can code.
 I won't go into details about the deduction because this is an extensive topic but you can
-find many references all over the internet,[like this one](http://www.ece.utah.edu/~ece6340/LECTURES/Feb1/Nagel%202012%20-%20Solving%20the%20Generalized%20Poisson%20Equation%20using%20FDM.pdf).
+find many references all over the internet, [like this one](http://www.ece.utah.edu/~ece6340/LECTURES/Feb1/Nagel%202012%20-%20Solving%20the%20Generalized%20Poisson%20Equation%20using%20FDM.pdf).
 
 Basically, the idea is to approximate the derivative in an array of points in the domain of the solution. The points are equally spread
 in *x* and *y* like in the image bellow
@@ -86,7 +86,7 @@ In CFD testing is an important step and there's two steps to accept a numerical 
 First you have to check if the numerical method is being solved correctly. This step is known as verification.
 Secondly, you have to check if the solution compares well with the
 equations. This is known as validation. This two steps are implemented in a small test suit. You can find the solver
-on a[github repository](//github.com/fjsousa/poisson-solver).
+on a [github repository](//github.com/fjsousa/poisson-solver).
 
 Here's a walkthrough of the solver:
 
@@ -162,7 +162,7 @@ The solver converges with 6100 iterations a residue of 9.988143389726145e-10.
 ```
 
 We can visualize the solution using the print method. This writes a *n x m* table wich you can load in a plotting software.
-I would recommend[veusz](http://home.gna.org/veusz/).
+I would recommend [veusz](http://home.gna.org/veusz/).
 
 ```Javascript
   //Print solution

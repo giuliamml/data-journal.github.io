@@ -6,7 +6,7 @@ Thumb: <img alt="gif time" src="assets/img/webrtc/gif.gif" title="gif time">
 
 # WebRTC Parallel Processing (part-2)
 
-In my [last post](/webrtc-part1.html), I introduced a CFD code which solved a partial differences equation implemented in JavaScript. The starting point, was to use a parallel computational task and distribute it among several browsers with Webrtc. In this post, I'll show you how I accomplished just that.
+In my [last post](/webrtc-part-1.html), I introduced a CFD code which solved a partial differences equation implemented in JavaScript. The starting point, was to use a parallel computational task and distribute it among several browsers with Webrtc. In this post, I'll show you how I accomplished just that.
 
 I've devised a solution where I have several browsers in different computers. Each browser has a peer connection and is connected to the same URL. I'm using a master/server approach, where one peer distributes work among the other peers and judges if the convergence criteria is met.
 

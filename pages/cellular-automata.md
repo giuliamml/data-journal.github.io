@@ -212,4 +212,4 @@ The two models side by side, with the same iteration interval of 100ms. Notice t
 <button onclick="smart2.run();dumb2.run();" class="actionbutton">►</button>
 
 
-And that's it. If you want to know more just follow the link and read the <a href="https://github.com/fjsousa/fjsousa.github.io/blob/master/assets/docs/sousa-etall.pdf" target="_blank">white paper</a>.
+And that's it. If you want to know more just follow the link and read the <a href="assets/docs/sousa-etall.pdf" target="_blank">white paper</a>.
