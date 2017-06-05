@@ -72,7 +72,8 @@
     [:link {:href "//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css" :rel "stylesheet"}]
     [:link {:type "text/css" :href "//cdn-images.mailchimp.com/embedcode/slim-081711.css" :rel "stylesheet"}]
     [:link {:href "assets/css/style.css" :rel "stylesheet"}]
-    [:script {:type "text/javascript" :src "//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"}]]
+    [:script {:src "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"
+              :async "async":type "text/javascript"}]]
 
    [:body
     [:div#desktop-source.source [:a {:target "_blank" :href "https://github.com/data-journal/data-journal.github.io"} "Source"]]
