@@ -107,6 +107,7 @@
      [:div#footer-bar
 
       [:div#mc_embed_signup
+       [:div.rss-feed [:a {:href "/feed.xml"}  [:i.fa.fa-rss {:aria-hidden "true"}]]]
        [:form#mc-embedded-subscribe-form.validate
         {:target "_blank"
          :action "//github.us10.list-manage.com/subscribe/post?u=5b26850668dc6b3f84778ca5e&id=cb5f4eedfe"

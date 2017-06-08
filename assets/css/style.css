@@ -68,6 +68,10 @@ a {
   margin-bottom: 0;
 }
 
+.rss-feed {
+    padding-bottom: 10px;
+}
+
 /*Burger menu and modal*/
 #menu-btn {
   font-size: 25px;
