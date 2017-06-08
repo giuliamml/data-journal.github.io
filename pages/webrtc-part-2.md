@@ -1,6 +1,6 @@
 Title: WebRTC Parallel Processing with a 2D partial difference equations solver (part-2)
 Subtitle: In my last post, I introduced a CFD code which solved a partial differences equation implemented in JavaScript. The starting point, was to use a parallel computational task and distribute it among several browsers with Webrtc. In this post, I'll show you how I accomplished just that.
-Tags: CFD, Web-RTC,Mathematical Modelling
+Tags: CFD, Web-RTC,Modelling
 Date: 2015 3 20
 Thumb: <img alt="gif time" src="assets/img/webrtc/gif.gif" title="gif time">
 
