@@ -321,6 +321,7 @@ a {
   }
 
   #header {
+    float: none;
     text-align: left;
     float: left;
   }
@@ -351,6 +352,7 @@ a {
     position: absolute;
     bottom: 0px;
     width: 100%;
+    height: 116px;
   }
 
   #menu-btn {
