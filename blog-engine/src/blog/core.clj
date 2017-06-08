@@ -76,9 +76,8 @@
                    (sort-by :date))]
     (assoc blog :dates dates)))
 
-
 (defn build! [root]
-  (refresh);;reloads namespaces that have been changed
+  ;;(refresh);;reloads namespaces that have been changed
   (let [page-structure (blog-as-data root)
         full-blog-structure (enrich-with-dates page-structure)
         menu (menu (:dates full-blog-structure))
@@ -89,16 +88,18 @@
                            menu
                            modal-menu
                            nil nil)
-        sitemap (sitemap base-url page-structure)]
+        sitemap (sitemap base-url page-structure)
+        rss-feed (rss-feed base-url page-structure)]
     (doseq [[slug-keyword {:keys [:title :subtitle :content]}] page-structure]
       (let [meta-title (str "Data Journal - " title)
             full-page (layout meta-title subtitle content menu modal-menu twitter-el disqus-el)
             path (str root "/" (name slug-keyword) ".html")]
         (spit path (hiccup/html full-page))))
     (spit (str root "/index.html") (hiccup/html front-page))
-    (spit (str root "/sitemap.txt") sitemap )))
+    (spit (str root "/sitemap.txt") sitemap)
+    (spit (str root "/feed.xml") rss-feed)))
 
-(start-watch [{:path  (str root "/pages/")
+#_(start-watch [{:path  (str root "/pages/")
                :event-types [:create :modify :delete]
                :bootstrap (fn [path] (println "Starting to watch " path))
                :callback (fn [event filename] (do (build! root)
@@ -108,4 +109,7 @@
 (defn main
   [& args]
   (build! root))
+
+(build! root)
+
 

@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<rss version='2.0' xmlns:atom='http://www.w3.org/2005/Atom'>
+<channel>
+<atom:link href='http://datajournal.co.uk/cellular-automata.html' rel='self' type='application/rss+xml'/>
+<title>
+Forest Fires and Parallel Cellular Automata, going from 8x to 240x faster with GPUs
+</title>
+<link>
+http://datajournal.co.uk/cellular-automata.html
+</link>
+<description>
+In this blog post, I'll show you two Cellular Automata algorithms used in Forest Fire Simulation. The models differ in the way they use the GPU architecture to boost performance. The first model was implemented in a trivial way, without much concern for the unique memory access pattern of the GPU. The second algorithm addresses this issue and outperforms the first by two orders of magnitude.
+</description>
+<category>
+Cellular Automata
+</category>
+<category>
+Numerical
+</category>
+<category>
+Algorithms
+</category>
+<generator>
+clj-rss
+</generator>
+<item>
+<title>
+Melhor da Zona or: How I Learned to Stop Worrying and Love Data Transparency
+</title>
+<link>
+http://datajournal.co.uk/open-data.html
+</link>
+<description>
+This blog post shows how a culture of data sharing and transparency in government institutions, fosters important and unexpected changes in society. To illustrate this point, I'm going to talk about Melhor da Zona, a web app that lets you search the best driving schools in your area.
+</description>
+<category>
+Open Data
+</category>
+<category>
+Journalism
+</category>
+<category>
+Government Data
+</category>
+</item>
+<item>
+<title>
+WebRTC Parallel Processing with a 2D partial difference equations solver (part-1)
+</title>
+<link>
+http://datajournal.co.uk/webrtc-part-1.html
+</link>
+<description>
+I did a little experiment with WebRTC and a CFD (Computational Fluid Dynamics) solver I wrote. I wanted to see what could be done with webRTC and browser parallel computing. First, I needed a problem that was computationally intense and suitable to parallelization. CFD suited that class of problems and plus, coming from mechanical engineering, it was a type of problem I was decently familiar with.
+</description>
+<category>
+CFD
+</category>
+<category>
+ Web-RTC
+</category>
+<category>
+Mathematical Modelling
+</category>
+</item>
+<item>
+<title>
+WebRTC Parallel Processing with a 2D partial difference equations solver (part-2)
+</title>
+<link>
+http://datajournal.co.uk/webrtc-part-2.html
+</link>
+<description>
+In my last post, I introduced a CFD code which solved a partial differences equation implemented in JavaScript. The starting point, was to use a parallel computational task and distribute it among several browsers with Webrtc. In this post, I'll show you how I accomplished just that.
+</description>
+<category>
+CFD
+</category>
+<category>
+ Web-RTC
+</category>
+<category>
+Mathematical Modelling
+</category>
+</item>
+</channel>
+</rss>

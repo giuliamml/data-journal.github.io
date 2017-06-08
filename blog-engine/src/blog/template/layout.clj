@@ -1,5 +1,6 @@
 (ns blog.template.layout
-  (:require [clj-time.format :as f]))
+  (:require [clj-time.format :as f]
+            [clj-rss.core :as rss]))
 
 (defn menu [dates]
   (->> dates
@@ -172,3 +173,12 @@
   ongoing work which I think is relevant to the subject. Subscribe to the newsletter to get the latest updates. I won't blog that frequently so don't worry, you won't get spammed!")
 
 
+(defn rss-feed
+  [base-url blog-structure]
+  (->> blog-structure
+       (map (fn [[slug {:keys [:title :subtitle :date :tags :thumb]}]]
+              {:title title
+               :link (str base-url "/" (name slug) ".html")
+               :description subtitle
+               :category tags}))
+       (apply rss/channel-xml)))
