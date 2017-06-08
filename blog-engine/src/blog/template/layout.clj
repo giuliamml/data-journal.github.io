@@ -1,5 +1,6 @@
 (ns blog.template.layout
   (:require [clj-time.format :as f]
+            [clj-time.coerce :as c]
             [clj-rss.core :as rss]))
 
 (defn menu [dates]
@@ -180,5 +181,6 @@
               {:title title
                :link (str base-url "/" (name slug) ".html")
                :description subtitle
-               :category tags}))
+               :category tags
+               :pubDate (c/to-date date)}))
        (apply rss/channel-xml)))

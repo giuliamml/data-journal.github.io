@@ -20,6 +20,9 @@ Numerical
 <category>
 Algorithms
 </category>
+<pubDate>
+Sun, 21 Jun 2015 01:00:00 +0100
+</pubDate>
 <generator>
 clj-rss
 </generator>
@@ -42,6 +45,9 @@ Journalism
 <category>
 Government Data
 </category>
+<pubDate>
+Mon, 10 Oct 2016 01:00:00 +0100
+</pubDate>
 </item>
 <item>
 <title>
@@ -62,6 +68,9 @@ CFD
 <category>
 Mathematical Modelling
 </category>
+<pubDate>
+Fri, 27 Feb 2015 00:00:00 +0000
+</pubDate>
 </item>
 <item>
 <title>
@@ -82,6 +91,9 @@ CFD
 <category>
 Mathematical Modelling
 </category>
+<pubDate>
+Fri, 20 Mar 2015 00:00:00 +0000
+</pubDate>
 </item>
 </channel>
 </rss>
