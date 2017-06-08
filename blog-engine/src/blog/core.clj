@@ -99,17 +99,11 @@
     (spit (str root "/sitemap.txt") sitemap)
     (spit (str root "/feed.xml") rss-feed)))
 
-#_(start-watch [{:path  (str root "/pages/")
+(defn -main
+  [& args]
+  (start-watch [{:path  (str root "/pages/")
                :event-types [:create :modify :delete]
                :bootstrap (fn [path] (println "Starting to watch " path))
                :callback (fn [event filename] (do (build! root)
                                                   (prn (str "File " filename " with event " event))))
-               :options {:recursive true}}])
-
-(defn main
-  [& args]
-  (build! root))
-
-(build! root)
-
-
+               :options {:recursive true}}]))
