@@ -184,4 +184,5 @@
                :description subtitle
                :category tags
                :pubDate (c/to-date date)}))
+       (filter (fn [{:keys [:title]}] (not (nil? title))))
        (apply rss/channel-xml)))
