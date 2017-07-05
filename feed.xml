@@ -28,6 +28,26 @@ clj-rss
 </generator>
 <item>
 <title>
+Avoiding the pitfall of language fundamentalism. Why the obsessive pursuit of language mastery will not translate in results.
+</title>
+<link>
+http://datajournal.co.uk/language-fundamentalism.html
+</link>
+<description>
+Culture is a big part of the carbon based entities that do pretty much all of the computer programming these days. This blog post is my first take on the other fluffy aspects of software development. I'll argue why being a language fundamentalist won't safeguard you from producing a bad system.
+</description>
+<category>
+Clojure
+</category>
+<category>
+Culture
+</category>
+<pubDate>
+Thu, 13 Jul 2017 01:00:00 +0100
+</pubDate>
+</item>
+<item>
+<title>
 Melhor da Zona or: How I Learned to Stop Worrying and Love Data Transparency
 </title>
 <link>
