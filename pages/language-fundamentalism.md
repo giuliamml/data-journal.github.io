@@ -13,6 +13,8 @@ Clojurians pride themselves of having all these tools available and developer ha
 
 Learning a language takes time and complex and rich languages take necessarily more time to learn than less complex ones. As professional software engineers, our job is to code in some language. Diligent software engineers will have the drive to invest extra time in learning the different aspects of the language. However, realise that learning the fundamentals of a language and using the language as a tool to do your job are actually two distinct pursuits. Over time you can specialise and be productive in the two, but you need to prioritise one over the other at a given time.
 
+> "... although it is certainly helpful for the author to be able to reason about linguistics at some level, knowing everything there is to know about it is not going to help him sell more books."
+
 A best selling author certainly has to have a high knowledge of the language he writes in, however he would get 10 nil from a linguist regarding its correct use. Although both of them work with language, it's clear that the two
 of them are on a very different professional trajectory. And although it is certainly helpful for the author to be able to reason about linguistics at some level, knowing everything there is to know about it is not going to help him sell more books. By choosing to focus on the language fundamentals, the developer is making a decision to pursue one path rather than the other. And this has important implications. If knowing the language is not sufficient to get the job done right, what other factors are there?
 
