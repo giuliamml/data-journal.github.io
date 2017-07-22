@@ -27,6 +27,7 @@
    (->> blog-structure
         (into '())
         (sort-by (fn [[slug {:keys [:date]}]] date))
+        reverse
         (map (fn [[slug {:keys [:title :subtitle :date :tags :thumb]}]]
                [:div.index-item
                 [:div.index-title [:a {:href (str (name slug) ".html")} title]]
