@@ -73,11 +73,11 @@
   [blog]
   (let [dates (->> blog
                    (map (fn [[k {:keys [:date]}]] {:slug k :date date :short-name (slug->short-title k)}))
-                   (sort-by :date))]
+                   (sort-by :date)
+                   reverse)]
     (assoc blog :dates dates)))
 
 (defn build! [root]
-  ;;(refresh);;reloads namespaces that have been changed
   (let [page-structure (blog-as-data root)
         full-blog-structure (enrich-with-dates page-structure)
         menu (menu (:dates full-blog-structure))
@@ -99,11 +99,20 @@
     (spit (str root "/sitemap.txt") sitemap)
     (spit (str root "/feed.xml") rss-feed)))
 
+
+(defn watch-fn []
+  (println "\nBuilding all the things...")
+  (build! root)
+  (start-watch [{:path  (str root "/pages/")
+                 :event-types [:create :modify :delete]
+                 :bootstrap (fn [path] (println "Starting to watch " path))
+                 :callback (fn [event filename] (do (build! root)
+                                                    (println (str "File " filename " with event " event))))
+                 :options {:recursive true}}]))
+
+(watch-fn)
+
 (defn -main
   [& args]
-  (start-watch [{:path  (str root "/pages/")
-               :event-types [:create :modify :delete]
-               :bootstrap (fn [path] (println "Starting to watch " path))
-               :callback (fn [event filename] (do (build! root)
-                                                  (prn (str "File " filename " with event " event))))
-               :options {:recursive true}}]))
+  (watch-fn))
+
