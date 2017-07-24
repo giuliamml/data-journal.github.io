@@ -62,9 +62,9 @@
                        (assoc-in [root :slug] (first slug))))) {})))
 ;;TODO validate output with spec. Each markdown should have a date, title and subtitle
 
-(defn slug->short-title
-  [slug]
-  (->> (string/split (name slug) #"-")
+(defn key->short-title
+  [page-key]
+  (->> (string/split (name page-key) #"-")
        (map string/capitalize)
        (string/join " ")))
 
@@ -73,7 +73,7 @@
    of each post to the the root level"
   [blog]
   (let [dates (->> blog
-                   (map (fn [[k {:keys [:date]}]] {:slug k :date date :short-name (slug->short-title k)}))
+                   (map (fn [[k {:keys [:date :slug]}]] {:slug slug :date date :short-name (key->short-title k)}))
                    (sort-by :date)
                    reverse)]
     (assoc blog :dates dates)))

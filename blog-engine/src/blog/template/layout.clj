@@ -7,7 +7,7 @@
   (->> dates
        (mapcat
               (fn [{:keys [:slug :date :short-name]}]
-                [[:a {:href (str (name slug) ".html")} [:span.nav-item-title short-name]]
+                [[:a {:href (str slug ".html")} [:span.nav-item-title short-name]]
                  [:span.nav-item-date  (f/unparse (f/formatters :year-month-day) date)]
                  [:br]]))
        (into [:div#menu ])))
@@ -16,7 +16,7 @@
   (->> dates
        (mapcat
               (fn [{:keys [:slug :date :short-name]}]
-                [[:a {:href (str (name slug) ".html")} [:span.modal-nav-item-title short-name]]
+                [[:a {:href (str slug ".html")} [:span.modal-nav-item-title short-name]]
                  [:span.modal-nav-item-date (str "(" (f/unparse (f/formatters :year-month-day) date) ")")]
                  [:br]]))
        (into [:div.modal-menu-items ])))
@@ -28,9 +28,9 @@
         (into '())
         (sort-by (fn [[slug {:keys [:date]}]] date))
         reverse
-        (map (fn [[slug {:keys [:title :subtitle :date :tags :thumb]}]]
+        (map (fn [[k {:keys [:title :subtitle :date :tags :thumb :slug]}]]
                [:div.index-item
-                [:div.index-title [:a {:href (str (name slug) ".html")} title]]
+                [:div.index-title [:a {:href (str slug ".html")} title]]
                 (when tags
                   [:div.index-tags (map (fn [tag]
                                           (if (<= 7 (count tag))
@@ -40,7 +40,7 @@
                 (when thumb
                   (into [:div.index-thumb] thumb))
                 [:div.index-description subtitle]
-                [:div.continue-reading [:a {:href (str (name slug) ".html")} "Continue Reading »"]]])))])
+                [:div.continue-reading [:a {:href (str slug ".html")} "Continue Reading »"]]])))])
 
 (def short-description
   "A place for tech and numerical experimentalism. Be welcome.")
