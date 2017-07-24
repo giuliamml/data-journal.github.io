@@ -3,6 +3,7 @@ Subtitle: I did a little experiment with WebRTC and a CFD (Computational Fluid D
 Tags: CFD, Web-RTC,Modelling
 Date: 2015 02 27
 Thumb: <img alt="Numerical Field" src="assets/img/webrtc/numerical.png" title="Numerical">
+Slug: webrtc-part-1
 
 # WebRTC Parallel Processing (part-1)
 

@@ -3,6 +3,7 @@ Subtitle: In my last post, I introduced a CFD code which solved a partial differ
 Tags: CFD, Web-RTC,Modelling
 Date: 2015 3 20
 Thumb: <img alt="gif time" src="assets/img/webrtc/gif.gif" title="gif time">
+Slug: webrtc-part-2
 
 # WebRTC Parallel Processing (part-2)
 

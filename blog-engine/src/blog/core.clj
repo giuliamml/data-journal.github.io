@@ -48,17 +48,18 @@
   [md-path]
   (->> (get-pages root)
        (reduce (fn [blog-map page]
-                 (let [slug (->> page .getName (re-find #"([a-z\d-]+)") last keyword)
+                 (let [root (->> page .getName (re-find #"([a-z\d-]+)") last keyword)
                        html-with-meta (-> page slurp (md/md-to-html-string-with-meta :inhibit-separator "%"))
-                       {:keys [html] {:keys [:title :subtitle :date :tags :thumb]} :metadata} html-with-meta
+                       {:keys [html] {:keys [:title :subtitle :date :tags :thumb :slug]} :metadata} html-with-meta
                        hiccup-content (->> html hickory/parse-fragment (mapv hickory/as-hiccup) concat (into [:div]))]
                    (-> blog-map
-                       (assoc-in [slug :title]  (-> title first))
-                       (assoc-in [slug :subtitle] (-> subtitle first))
-                       (assoc-in [slug :date] (-> date first string->date))
-                       (assoc-in [slug :content] hiccup-content)
-                       (assoc-in [slug :tags] (string->tags tags))
-                       (assoc-in [slug :thumb] (string->thumb-hiccup thumb))))) {})))
+                       (assoc-in [root :title]  (-> title first))
+                       (assoc-in [root :subtitle] (-> subtitle first))
+                       (assoc-in [root :date] (-> date first string->date))
+                       (assoc-in [root :content] hiccup-content)
+                       (assoc-in [root :tags] (string->tags tags))
+                       (assoc-in [root :thumb] (string->thumb-hiccup thumb))
+                       (assoc-in [root :slug] (first slug))))) {})))
 ;;TODO validate output with spec. Each markdown should have a date, title and subtitle
 
 (defn slug->short-title
@@ -77,6 +78,17 @@
                    reverse)]
     (assoc blog :dates dates)))
 
+(defn append-clojure-language-pitfalls!
+  [root]
+  (let [page (str root "/clojure-language-pitfalls.html")
+        prefix "---\nredirect_from: \"/language-fundamentalism.html\"\n---\n"]
+    (spit page (->> page slurp (str prefix)))))
+
+(defn custom!
+  "Defines a bunch of custom rewrites"
+  [root]
+  (append-clojure-language-pitfalls! root))
+
 (defn build! [root]
   (let [page-structure (blog-as-data root)
         full-blog-structure (enrich-with-dates page-structure)
@@ -90,14 +102,15 @@
                            nil nil)
         sitemap (sitemap base-url page-structure)
         rss-feed (rss-feed base-url page-structure)]
-    (doseq [[slug-keyword {:keys [:title :subtitle :content]}] page-structure]
+    (doseq [[k {:keys [:title :subtitle :content :slug]}] page-structure]
       (let [meta-title (str "Data Journal - " title)
             full-page (layout meta-title subtitle content menu modal-menu twitter-el disqus-el)
-            path (str root "/" (name slug-keyword) ".html")]
+            path (str root "/" slug ".html")]
         (spit path (hiccup/html full-page))))
     (spit (str root "/index.html") (hiccup/html front-page))
     (spit (str root "/sitemap.txt") sitemap)
-    (spit (str root "/feed.xml") rss-feed)))
+    (spit (str root "/feed.xml") rss-feed)
+    (custom! root)))
 
 
 (defn watch-fn []

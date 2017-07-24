@@ -3,6 +3,7 @@ Subtitle: In this blog post, I'll show you two Cellular Automata algorithms used
 Tags: Cellular Automata,Numerical,Algorithms
 Date: 2015 6 21
 Thumb: <div class="fgm-wrapper"><canvas id="fgm-serial" width="200" height="200">Consider updating your browser</canvas></div><button onclick="dumb.run()" class="actionbutton">►</button>
+Slug: cellular-automata
 
 # Forest Fires and Parallel Cellular Automata, going from 8x to 240x faster with GPUs
 

@@ -2,6 +2,7 @@ Subtitle: Culture is a big part of the carbon based entities that do pretty much
 Title: Avoiding the pitfall of language fundamentalism. Why the obsessive pursuit of language mastery will not translate in results.
 Tags:Clojure,Culture
 Date: 2017 07 13
+Slug: clojure-language-pitfalls
 
 # Avoiding the pitfall of language fundamentalism. Why the obsessive pursuit of language mastery will not translate in results.
 
