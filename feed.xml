@@ -31,7 +31,7 @@ clj-rss
 Avoiding the pitfall of language fundamentalism. Why the obsessive pursuit of language mastery will not translate in results.
 </title>
 <link>
-http://datajournal.co.uk/clojure-language-pitfalls.html
+http://datajournal.co.uk/language-fundamentalism.html
 </link>
 <description>
 Culture is a big part of the carbon based entities that do pretty much all of the computer programming these days. This blog post is my first take on the other fluffy aspects of software development. I'll argue why being a language fundamentalist won't safeguard you from producing a bad system.
@@ -67,6 +67,32 @@ Government Data
 </category>
 <pubDate>
 Mon, 10 Oct 2016 01:00:00 +0100
+</pubDate>
+</item>
+<item>
+<title>
+A development environment for a tricked out Nginx
+</title>
+<link>
+http://datajournal.co.uk/sane-openresty-dev.html
+</link>
+<description>
+OpenResty lets you extend Nginx with Lua, a small, powerful and embedded language. Setting the dev environment can be though though. Setting up Openresty and lua can be a tricky process. In this blog post how'll show you some tools to set up nginx with lua, so that you have everything you need to start hacking with server side lua.
+</description>
+<category>
+nginx
+</category>
+<category>
+docker
+</category>
+<category>
+lua
+</category>
+<category>
+openresty
+</category>
+<pubDate>
+Tue, 01 Aug 2017 01:00:00 +0100
 </pubDate>
 </item>
 <item>
