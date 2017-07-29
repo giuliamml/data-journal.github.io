@@ -21,7 +21,7 @@ Numerical
 Algorithms
 </category>
 <pubDate>
-Sun, 21 Jun 2015 02:00:00 +0200
+Sun, 21 Jun 2015 01:00:00 +0100
 </pubDate>
 <generator>
 clj-rss
@@ -31,7 +31,7 @@ clj-rss
 Avoiding the pitfall of language fundamentalism. Why the obsessive pursuit of language mastery will not translate in results.
 </title>
 <link>
-http://datajournal.co.uk/language-fundamentalism.html
+http://datajournal.co.uk/clojure-language-pitfalls.html
 </link>
 <description>
 Culture is a big part of the carbon based entities that do pretty much all of the computer programming these days. This blog post is my first take on the other fluffy aspects of software development. I'll argue why being a language fundamentalist won't safeguard you from producing a bad system.
@@ -43,7 +43,7 @@ Clojure
 Culture
 </category>
 <pubDate>
-Thu, 13 Jul 2017 02:00:00 +0200
+Thu, 13 Jul 2017 01:00:00 +0100
 </pubDate>
 </item>
 <item>
@@ -66,7 +66,7 @@ Journalism
 Government Data
 </category>
 <pubDate>
-Mon, 10 Oct 2016 02:00:00 +0200
+Mon, 10 Oct 2016 01:00:00 +0100
 </pubDate>
 </item>
 <item>
@@ -89,7 +89,7 @@ CFD
 Modelling
 </category>
 <pubDate>
-Fri, 27 Feb 2015 01:00:00 +0100
+Fri, 27 Feb 2015 00:00:00 +0000
 </pubDate>
 </item>
 <item>
@@ -112,7 +112,7 @@ CFD
 Modelling
 </category>
 <pubDate>
-Fri, 20 Mar 2015 01:00:00 +0100
+Fri, 20 Mar 2015 00:00:00 +0000
 </pubDate>
 </item>
 </channel>

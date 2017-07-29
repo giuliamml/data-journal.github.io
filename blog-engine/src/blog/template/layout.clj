@@ -164,8 +164,7 @@
 
 (defn sitemap [root blog-structure]
   (->> blog-structure
-       (map (fn [[k v]] (name k)))
-       (map (fn [slug] (str root "/" slug ".html")))
+       (map (fn [[k {:keys [slug]}]] (str root "/" slug ".html")))
        (reduce (fn [map-str page] (str map-str page "\n")) (str root "\n"))))
 
 (def index-title
@@ -179,9 +178,9 @@
 (defn rss-feed
   [base-url blog-structure]
   (->> blog-structure
-       (map (fn [[slug {:keys [:title :subtitle :date :tags :thumb]}]]
+       (map (fn [[k {:keys [:slug :title :subtitle :date :tags :thumb]}]]
               {:title title
-               :link (str base-url "/" (name slug) ".html")
+               :link (str base-url "/" slug ".html")
                :description subtitle
                :category tags
                :pubDate (c/to-date date)}))
