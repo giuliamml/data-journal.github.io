@@ -1,16 +1,20 @@
 Title: A development environment for a tricked out Nginx
 Date: 2017 08 01
 Tags: nginx,docker,lua,openresty
-Subtitle: OpenResty lets you extend Nginx with Lua, a small, powerful and embedded language. Setting the dev environment can be though though. Setting up Openresty and lua can be a tricky process. In this blog post how'll show you some tools to set up nginx with lua, so that you have everything you need to start hacking with server side lua.
+Subtitle: Openresty lets you extend Nginx with Lua, a lightweight, embedded language. Setting the dev environment is time consuming as Openresty has to be compiled locally. Having small differences  makes compilation  in the makes collaboration difficult in this day and age which makes collaboration tricky in this day and age. In this blog post how'll show you some tools to set up nginx with lua, so that you have everything you need to start hacking with server side lua.
 Slug: nginx-openresty-lua-docker
 
 # A development environment for a tricked out Nginx
 
-At Style.com, prior to our Setember 2016 launch, we did a beta launch around May. we had a shitty website and we didn't want people to, well, use it. So we decided to put a barrier page in front of it and hand out access codes that were revocable. We had some custom requirements and we didn't want to go with a basic nginx barrier page because this was fucking CONDE NASTE YO!! The thing had to be big and custom and LUXURY! LUXURY! LUXURY! So us developers, being the wankers that we are, decided to have some fun with exotic stuff like nginx and lua. Because why not ¯\_(ツ)_/¯
+At Style.com, prior to our Setember 2016 launch, we published a Beta version of our website around May. We wanted to have a barrier page on the style.com domain, that would require an invitation token. If valid it would set a cookie with a token that would be used in every following request to bypass the barrier page. 
 
-Open resty is an extended version of Nginx and it has a module that lets you embed lua scripts. This is great because it gives you the high performance of nginx plus a lightweight language that adds a very small overhead to each request.
+The business rules required a solution more sophisticated than what nginx provided out of the box and this provided the perfect oportunity to roll out openresty with a custom Lua script. Openresty is an extended version of Nginx and it has a module that lets you embed lua scripts. 
 
-https://githubengineering.com/rearchitecting-github-pages/
+We also had good reasons to go with it:
+- We already had nginx acting as a reverse proxy and doing https offloading.
+- Lua lets you extend Nginx without adding much overheada way  (github link)[https://githubengineering.com/rearchitecting-github-pages/]
+
+Why is it so fast?
 
 
 To use it, you just need to download and compile Open resty, then in your nginx server configuration, you need to add a `access_by_lua_file` instruction, and the path to the lua file:
@@ -21,20 +25,21 @@ server {
   server_name smartproxy
 
   location / {
-    proxy_pass website.com;
     access_by_lua_file path/main.lua;
+    proxy_pass some.website.com;
+    
   }
 
 }
 ```
 
-For instance, this Configuration would listen in the port 80 and proxy website.com according to some custom logic in the lua script.
+For instance, this Configuration would listen in the port 80 and proxy some.website.com according to some custom logic in the lua script.
 
-Seting up a local dev env is trick as you need to have openresty and lua rocks. After a couple of tries I got a dev env working based on docker. That's what I'll show. In this blog post I'll give you everything you need to start deveoping and being productive with nginx and lua.
+Seting up a local dev env is trick as you need to have openresty and lua rocks, lua's package manager. After a couple of tries I got a dev env working based on docker. That's what I'll show. In this blog post I'll give you everything you need to start deveoping and being productive with nginx and lua.
 
 ### 1 OpenResty base image
 
-I've prepared an [open resty base image](https://hub.docker.com/r/fjsousa/nginx-openresty/) based on Alpine Linux. The image has around 17 mb and is based on https://github.com/ficusio/openresty/blob/master/alpine/Dockerfile but with luarocks and a bumped version of openresty. This is the break down of the Dockerfile.
+I've prepared an [open resty base image](https://hub.docker.com/r/fjsousa/nginx-openresty/) based on Alpine Linux. The image has around 17 mb and is based on https://github.com/ficusio/openresty/blob/master/alpine/Dockerfile but with luarocks and an up to date version of openresty. This is the break down of the Dockerfile.
 
 ### install lua dependencies
 
@@ -104,6 +109,7 @@ The whole process should be quite fast. Building the image, carrying over the so
 
 ## tests
 ??????
+
 # Example page
 
 As an example, imagine you have a website that you want to protect with a password screen. However, you want something custom, other than the basic authentication that nginx can provide.
@@ -112,11 +118,88 @@ We want the user to see a barrier form prompting a token. When the user sends th
 
 Auth diagram
 
-Nginx code
+Mention endpoints and the lua files
+........
+server {
+  listen 80;
+  server_name smartproxy;
 
-Main.lua
+  location / {
+    resolver 8.8.8.8;
+    access_by_lua_file lualib/main.lua;
+    proxy_pass {{URL}};
+  }
+
+  location = /auth {
+    resolver 8.8.8.8;
+    lua_need_request_body on;
+    access_by_lua_file lualib/auth.lua;
+  }
+
+  location = /form.html {
+    root public;
+  }
+
+  location /form {
+    include mime.types;
+    root public;
+  }
+
+}
+......
+
+
+......
+local is_valid = require "nginx-server/lualib/isvalid"
+local cookie_name = os.getenv("COOKIE_NAME")
+local token_cookie = ngx.var["cookie_" .. cookie_name]
+
+ngx.log(ngx.INFO, "Checking validity for cookie token: " .. (token_cookie or "nil"))
+
+if not is_valid(token_cookie) then
+  ngx.log(ngx.INFO, "Cookie token not valid: " .. (token_cookie or "nil"))
+  return ngx.exec("/form.html")
+end
+
+ngx.log(ngx.INFO, "Cookie token valid: " .. (token_cookie or "nil"))
+return
+....
+
+Os.getenv
 
 Auth.lua
+local is_valid = require "nginx-server/lualib/isvalid"
+local cookie_name = os.getenv("COOKIE_NAME")
+local cookie_domain = os.getenv("COOKIE_DOMAIN")
+local user_code, err = ngx.req.get_post_args(1)["code"]
+
+ngx.log(ngx.INFO, "Checking validity for auth token: " .. (user_code or "nil"))
+
+local valid = is_valid(user_code)
+
+if valid == false then
+  ngx.log(ngx.INFO, "Auth token not valid: " .. user_code)
+  ngx.status = 401
+  ngx.header["Content-type"] = "text/html"
+  ngx.say("Unauthorized. Take me to the <a href=\"/\">main page.</a>")
+  return
+end
+
+ngx.log(ngx.INFO, "Auth token is valid: " .. user_code)
+ngx.log(ngx.INFO, "Setting domain cookie")
+ngx.header['Set-Cookie'] = cookie_name .. "=" .. valid .. "; Domain=" .. cookie_domain
+ngx.redirect("/")
+return
+
+Ngx.log
+Ngx.redirect
+
+Are all api calls to nginx from lua
+
+
+Todo:
+Link to Dockerfile
+Link to example repo
 
 
 
