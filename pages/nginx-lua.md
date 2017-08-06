@@ -199,15 +199,16 @@ ngx.log(ngx.INFO, "Setting domain cookie")
 ngx.header['Set-Cookie'] = cookie_name .. "=" .. valid .. "; Domain=" .. cookie_domain
 ngx.redirect("/")
 return
- 
 ```
 
 Notice that the script is using a set of Nginx functionalities as an api (`ngx`). You can read more about this extensive api in the [github page](https://github.com/openresty/lua-nginx-module#nginx-api-for-lua).
 
-If you want to get started with this setup just [clone the repo](https://github.com/fjsousa/openresty-smart-proxy) build it and run it `docker build -t nginx-barrier-page:latest .` `docker run -p 80:80 nginx-barrier-page:latest`
+If you want to get started with this setup just [clone the repo](https://github.com/fjsousa/openresty-smart-proxy) build it and run it:
 
+```docker build -t nginx-barrier-page:latest .```
 
--
+```docker run -p 80:80 nginx-barrier-page:latest```
+
 
 Further Reading
 - http://www.staticshin.com/top-tens/things-about-openresty.html
