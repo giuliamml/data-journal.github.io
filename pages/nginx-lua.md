@@ -1,25 +1,28 @@
 Title: A development environment for a tricked out Nginx
-Date: 2017 08 01
+Date: 2017 08 07
 Tags: nginx,docker,lua,openresty
-Subtitle: Openresty lets you extend Nginx with Lua, a lightweight, embedded language. Setting the dev environment is time consuming when Openresty is compiled locally, making collaboration harder. This, together with the fact that Nginx and Lua don't get the attention they should get sets the motivation for this blog post. I'll show you some tools to set up nginx with Lua, so that you have everything you need to start hacking with server side Lua.
+Subtitle: OpenResty lets you extend Nginx with Lua, a popular, embedded language. Setting the development environment is time consuming when Openresty is compiled locally, making collaboration harder. This blog post will give you a Docker based tool to start hacking with server side Lua.
+Thumb: <img alt="Smart Proxy Http Diagram" src="assets/img/bits-and-pieces/barrier-page-flow.jpg">
 Slug: nginx-openresty-lua-docker
 
 # A development environment for a tricked out Nginx
 
 
-### TL,DR: A docker based development environment for scripting in nginx. Clone, build, run and try it for yourself:
+### TL,DR: A docker based development environment for scripting in Nginx. Clone, build, run and try it for yourself:
 
 - `$ git clone git@github.com:fjsousa/openresty-smart-proxy.git`
 - `$ cd openresty-smart-proxy/`
 - `$ docker build -t nginx-barrier-page:latest .`
 - `$ docker run -p 80:80 nginx-barrier-page:latest`
-- hit `localhost` in your browser
+- hit `localhost` in your browser.
 
 At Style.com, prior to our Setember 2016 launch, we published a Beta version of our website in May. We wanted to have a barrier page on the `style.com` domain, that would require an invitation token. If valid it would set a cookie with a token that would be used in every following request to bypass the barrier page. The tokens could be invalidated and would expire after a certain time.
 
-The business rules required a solution more sophisticated than what Nginx provided out of the box and this provided the perfect oportunity to roll out Openresty with a custom Lua script. OpenResty is an extended version of Nginx with a it has a module that lets you embed Lua scripts. We had heard wonders of Lua + Openresty [performance](https://githubengineering.com/rearchitecting-github-pages/) and witnessed the small overhead [Kong](https://getkong.org/) added to our requests. Also, Nginx was already part of our stack acting as a reverse proxy and doing https offloading. This proved to be the perfect solution blablabla
+The business rules required a solution more sophisticated than what Nginx provided out of the box and this was the perfect oportunity to roll out Openresty with some Lua logic. OpenResty is an extended version of Nginx with a module that lets you embed Lua scripts. We had read of Lua + Openresty [performance](https://githubengineering.com/rearchitecting-github-pages/) and witnessed the small overhead [Kong](https://getkong.org/) added to our requests. Also, Nginx was already part of our stack acting as a reverse proxy and doing https offloading.
 
-To start scripting in Nginx using Lua, use it, you just need to download and compile OpenResty, then in your Nginx server configuration, you need to add a `access_by_lua_file` directive, and the path to the Lua file:
+## 1 Basic Setup
+
+To start scripting in Nginx using Lua, you just need to download and compile OpenResty, then in your Nginx server configuration, you need to add a `access_by_lua_file` directive, and the path to the Lua file:
 
 
 ```
@@ -35,13 +38,13 @@ server {
 }
 ```
 
-This configuration, for instance, would listen in the port `80` and proxy `some.website.com` according to some custom logic in the Lua script. Going from plain Nginx to Scripting with Lua that's it. However there's a setup overhead and getting a development environment up and running is not strightforward. That's the objective of this blog post.
+This configuration, for instance, would listen in the port `80` and proxy `some.website.com` according to some custom logic in `main.lua`. The extra directive is the basic additional sintax you need to add to your existing Nginx server configuration. If your OpenResty is running locally, you can start adding your Lua logic and the JIT compiler will pick the changes without having to restart the server.
 
-Setting up a local dev env is trick as you need to have openresty and Lua Rocks, Lua's package manager. After a couple of tries I got a dev env working based on docker. That's what I'll show. In this blog post I'll give you everything you need to start deveoping and being productive with Nginx and Lua.
+The setup works fine until you realize you have to go through the same setup in someone else's machine. After spending more time than you'd like to admite trying to get OpenResty compilation flags right, containerization start to seem like something that would solve a lot of the development problems, instead of an extra setup for deployment.
 
-## 1 Dockerfile
+## 2 Dockerfile
 
-I've prepared an [open resty base image](https://hub.docker.com/r/fjsousa/nginx-openresty/) based on Alpine Linux. The image has around 17 MB and is based on this other [OpenResty Image](https://github.com/ficusio/openresty/blob/master/alpine/Dockerfile) but with LuaRocks and an up to date version of openresty. This is the break down of the Dockerfile. You can find the complete web app here: https://github.com/fjsousa/openresty-smart-proxy.
+I've prepared an [OpenResty base image](https://hub.docker.com/r/fjsousa/nginx-openresty/) based on Alpine Linux. The image has around 17 MB and is based on this other [OpenResty Image](https://github.com/ficusio/openresty/blob/master/alpine/Dockerfile) but with LuaRocks, Lua's package manager, and an up to date version of OpenResty. This is the break down of the Dockerfile. You can find the [complete web app here](https://github.com/fjsousa/openresty-smart-proxy).
 
 ### Install Lua dependencies
 
@@ -57,9 +60,9 @@ RUN apk update \
  && rm -rf /root/luarocks
 ```
 
-Because we're using a lightweight Alpine Linux base image, we'll have to install some dependencies taken for granted in other systems, like GCC, CURL AND WGET. We name them BUILD-DEPS so that we can refer to them back later and delete them in case you want a production ready system.
+Because we're using a lightweight Alpine Linux base image, we'll have to install some dependencies taken for granted in other systems, like `gcc`, `curl` and `wget`. We name them `build-deps` so that we can refer to them later and delete them, in case you want a production ready system.
 
-The other dependencies are LuaRocks, Lua packages, for unit testing, BUSTED, and and https client, LUARESTYHTTP
+The other dependencies are LuaRocks packages for unit testing, `busted`, and an http client, `lua-resty-http`.
 
 ### Carry over assets, Nginx config files, Lua files
 
@@ -71,9 +74,9 @@ COPY public /opt/openresty/nginx/nginx-server/public
 
 ```
 
-This copies all files to the container.
+This copies all relevant files to the container.
 
-### Set env vars and replace fill templates
+### Set env vars and replace templates
 
 ```
 RUN echo "==> Replacing nginx *.tmpl files..."
@@ -92,9 +95,9 @@ RUN cp "$NGINX_CONFIG".tmpl "$NGINX_CONFIG".conf \
  && sed -i -- "s|{{URL}}|$URL|g" $SERVER_CONFIG.conf
 
 ```
-We copy the templates to the configuration files  and replace the placeholder with the values defined for each env variable, defined on the Dockerfile.
+We keep all the configuration variables in one place by defining environment variables in the Dockerfile and using a template approach. Later, we rename the files and replace the placeholders using `sed`.
 
-### Del build dependencies and run Nginx
+### Delete build dependencies and run Nginx
 
 If you want to make the image as small as possible and ready for production, delete the build dependencies. Otherwise keep them, these basic commands will be useful for debugging.
 
@@ -105,21 +108,22 @@ CMD ["nginx", "-g", "daemon off; error_log /dev/stderr info;", "-p", "nginx-serv
 
 ```
 
-## 2 Development Flow
+## 3 Development Flow
 
-  A development flow would go like this
-- Code changes
+  A development flow based on this docker image would be:
+
+- Code changes.
 - `docker build -t nginx-barrier-page:latest .`
 - `docker run -p 80:80 nginx-barrier-page:latest`
-- Repeat
+- Repeat.
 
-The whole process should be quite fast. Building the image, carrying over the source files, starting Nginx, should be around 1 second. You can even have a file watcher monitoring the source file and triggering the docker build and run commands. If you're using a native docker you might be able to just mount the source folder if you wish too.
+The whole process should be quite fast. Building the image, carrying over the source files, replacing the templates and starting Nginx, should be around 1 second. You can even have a file watcher monitoring the source file and triggering the docker build and run commands. If you're using a native docker you might be able to just mount the source folder if you wish too.
 
-## 3 Example time
+## 4 Example time
 
 As an example, imagine you have a website that you want to protect with a password screen. Lets use `http://www.theuselessweb.com/` as our target website because I've been procrastinating while writing this post. However, you want something custom, other than the basic authentication that Nginx can provide.
 
-We want the user to see a barrier form prompting a token. When the user sends the token, we want to validate it against a list of valid tokens. If the token is valid, we'll store a domain cookie with the token so that next time, the cookie in the headers is validated instead. If the token is invalidated in the server side, the user is served the form instead of the website he wishes to see.
+We want the user to see a barrier form prompting a token. When the user sends the token, we want to validate it against a list of valid tokens. If the token is valid, we'll store a domain cookie with the token so that next time, the cookie in the headers is validated instead. If the token is found to be invalid in the server side, the user is served the form instead of the website he wishes to see.
 
 ![Barrier Page http flow](assets/img/bits-and-pieces/barrier-page-flow.jpg "Barrier Page http flow")
 

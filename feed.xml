@@ -54,7 +54,7 @@ A development environment for a tricked out Nginx
 http://datajournal.co.uk/nginx-lua.html
 </link>
 <description>
-Openresty lets you extend Nginx with Lua, a lightweight, embedded language. Setting the dev environment is time consuming when Openresty is compiled locally, making collaboration harder. This, together with the fact that Nginx and Lua don't get the attention they should get sets the motivation for this blog post. I'll show you some tools to set up nginx with Lua, so that you have everything you need to start hacking with server side Lua.
+OpenResty lets you extend Nginx with Lua, a popular, embedded language. Setting the development environment is time consuming when Openresty is compiled locally, making collaboration harder. This blog post will give you a Docker based tool to start hacking with server side Lua.
 </description>
 <category>
 nginx
@@ -69,7 +69,7 @@ lua
 openresty
 </category>
 <pubDate>
-Tue, 01 Aug 2017 01:00:00 +0100
+Mon, 07 Aug 2017 01:00:00 +0100
 </pubDate>
 </item>
 <item>
