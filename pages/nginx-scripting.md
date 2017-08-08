@@ -18,7 +18,7 @@ Slug: nginx-openresty-lua-docker
 
 At Style.com, prior to our Setember 2016 launch, we published a Beta version of our website in May. We wanted to have a barrier page on the `style.com` domain, that would require an invitation token. If valid it would set a cookie with a token, that would be used in every following request to bypass the barrier page. The tokens could be invalidated and would expire after a certain time.
 
-The business rules required a solution more sophisticated than what Nginx provided out of the box and this was the perfect oportunity to roll out Openresty with some Lua logic. OpenResty is an extended version of Nginx with a module that lets you embed Lua scripts. We had read of Lua + Openresty [performance](https://githubengineering.com/rearchitecting-github-pages/) and witnessed the small overhead [Kong](https://getkong.org/) added to our requests. Also, Nginx was already part of our stack, acting as a reverse proxy and doing https offloading.
+The business rules required a solution more sophisticated than what Nginx provided out of the box and this was the perfect oportunity to roll out Openresty with some Lua logic. OpenResty is an extended version of Nginx with a module that lets you embed Lua scripts. We had read of Lua + Openresty [performance at Github](https://githubengineering.com/rearchitecting-github-pages/) and witnessed the small overhead [Kong](https://getkong.org/) added to our requests. Also, Nginx was already part of our stack, acting as a reverse proxy and doing https offloading.
 
 ## 1 Basic OpenResty Setup
 
