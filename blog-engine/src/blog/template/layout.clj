@@ -72,9 +72,9 @@
     [:title title]
     [:link {:href "assets/css/font.css", :rel "stylesheet"}]
     [:link {:href "//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" :rel "stylesheet"}]
-    [:link {:href "//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css" :rel "stylesheet"}]
-    [:link {:type "text/css" :href "//cdn-images.mailchimp.com/embedcode/slim-081711.css" :rel "stylesheet"}]
     [:link {:href "assets/css/style.css" :rel "stylesheet"}]
+    [:link {:href "assets/css/github.css" :rel "stylesheet"}]
+    [:link {:type "text/css" :href "//cdn-images.mailchimp.com/embedcode/slim-081711.css" :rel "stylesheet"}]
     [:script {:src "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"
               :async "async":type "text/javascript"}]]
 
@@ -154,7 +154,7 @@
      "(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){\n  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),\n  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)\n  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');\n  ga('create', 'UA-53583095-1', 'auto');\n  ga('send', 'pageview');\n"]
     [:script {:src "//code.jquery.com/jquery-1.11.2.min.js"}]
     [:script {:type "text/javascript" :src "assets/src/modal.js"}]
-    [:script {:type "text/javascript" :src "//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"}]
+    [:script {:type "text/javascript" :src "assets/src/highlight.pack.js"}]
     [:script "hljs.initHighlightingOnLoad();"]
     ;;cellular automata post
     [:script {:type "text/javascript" :src "assets/src/rags.js"}]
