@@ -1,14 +1,14 @@
 Title: A development environment for a tricked out Nginx
 Date: 2017 08 07
 Tags: nginx,docker,lua,openresty
-Subtitle: OpenResty lets you extend Nginx with Lua, a popular, embedded language. Setting the development environment is time consuming when Openresty is compiled locally, making collaboration harder. This blog post will give you a Docker based tool to start hacking with server side Lua.
+Subtitle: OpenResty lets you extend Nginx with Lua, a popular, embedded language. Setting up the development environment is time consuming when Openresty is compiled locally, making collaboration harder. This blog post will show you a Docker based tool to start hacking with server side Lua.
 Thumb: <img alt="Smart Proxy Http Diagram" src="assets/img/bits-and-pieces/barrier-page-flow.jpg">
 Slug: nginx-openresty-lua-docker
 
 # A development environment for a tricked out Nginx
 
 
-### TL,DR: A development environment flow based on an OpenResty Docker image that will make your life easier when scripting in Nginx. Clone, build, run and try it for yourself:
+### TL,DR: A development flow based on an OpenResty Docker image that will make your life easier when scripting in Nginx. Clone, build, run and try it for yourself:
 
 - `$ git clone git@github.com:fjsousa/openresty-smart-proxy.git`
 - `$ cd openresty-smart-proxy/`
@@ -16,13 +16,13 @@ Slug: nginx-openresty-lua-docker
 - `$ docker run -p 80:80 nginx-barrier-page:latest`
 - Hit `localhost` in your browser.
 
-At Style.com, prior to our Setember 2016 launch, we published a Beta version of our website in May. We wanted to have a barrier page on the `style.com` domain, that would require an invitation token. If valid it would set a cookie with a token that would be used in every following request to bypass the barrier page. The tokens could be invalidated and would expire after a certain time.
+At Style.com, prior to our Setember 2016 launch, we published a Beta version of our website in May. We wanted to have a barrier page on the `style.com` domain, that would require an invitation token. If valid it would set a cookie with a token, that would be used in every following request to bypass the barrier page. The tokens could be invalidated and would expire after a certain time.
 
-The business rules required a solution more sophisticated than what Nginx provided out of the box and this was the perfect oportunity to roll out Openresty with some Lua logic. OpenResty is an extended version of Nginx with a module that lets you embed Lua scripts. We had read of Lua + Openresty [performance](https://githubengineering.com/rearchitecting-github-pages/) and witnessed the small overhead [Kong](https://getkong.org/) added to our requests. Also, Nginx was already part of our stack acting as a reverse proxy and doing https offloading.
+The business rules required a solution more sophisticated than what Nginx provided out of the box and this was the perfect oportunity to roll out Openresty with some Lua logic. OpenResty is an extended version of Nginx with a module that lets you embed Lua scripts. We had read of Lua + Openresty [performance](https://githubengineering.com/rearchitecting-github-pages/) and witnessed the small overhead [Kong](https://getkong.org/) added to our requests. Also, Nginx was already part of our stack, acting as a reverse proxy and doing https offloading.
 
 ## 1 Basic OpenResty Setup
 
-To start scripting in Nginx using Lua, you just need to download and compile OpenResty. Then in your Nginx server configuration, you need to add a `access_by_lua_file` directive, and the path to the Lua file:
+To start scripting in Nginx using Lua, you just need to download and compile OpenResty. Then, in your Nginx server configuration, you need to add a `access_by_lua_file` directive, and the path to the Lua file. Here's an example:
 
 
 ```
@@ -38,13 +38,13 @@ server {
 }
 ```
 
-This configuration, for instance, would listen in port `80` and proxy `some.website.com` according to some custom logic in `main.lua`. This extra directive is the basic additional sintax you need to add to your existing Nginx server configuration. If your OpenResty is running locally, you can start adding your Lua logic and the JIT compiler will pick the changes without having to restart the server.
+This configuration would listen in port `80` and proxy `some.website.com` according to some custom logic in `main.lua`. This extra directive is the basic additional sintax you need to add to your existing Nginx server configuration. If your OpenResty is installed locally, you can start adding your Lua logic and you'll just have to restart Nginx to pick up the changes.
 
 The setup works fine until you realize you have to go through the same setup in someone else's machine. After spending more time than you'd like to admite trying to get OpenResty compilation flags right, containerization starts to seem like something that would solve a lot of the development problems, instead of being just an extra setup for deployment.
 
 ## 2 Dockerfile
 
-I've prepared an [OpenResty base image](https://hub.docker.com/r/fjsousa/nginx-openresty/) based on Alpine Linux. The image has around 17 MB and is based on this other [OpenResty Image](https://github.com/ficusio/openresty/blob/master/alpine/Dockerfile), but with LuaRocks, Lua's package manager, and an up to date version of OpenResty. This is the breakdown of the Dockerfile. You can find the complete Dockerfile, as well as the rest of the [Nginx web app here](https://github.com/fjsousa/openresty-smart-proxy).
+I've prepared an [OpenResty base image](https://hub.docker.com/r/fjsousa/nginx-openresty/) based on Alpine Linux. The image has around 17 MB and is based on this other [OpenResty Image](https://github.com/ficusio/openresty/blob/master/alpine/Dockerfile), but with LuaRocks, Lua's package manager, and an up to date version of OpenResty. This is the breakdown of the Dockerfile. You can find the complete Dockerfile, as well as the rest of the [Nginx example app here](https://github.com/fjsousa/openresty-smart-proxy).
 
 ### Install Lua dependencies
 
@@ -62,7 +62,7 @@ RUN apk update \
 
 Because we're using a lightweight Alpine Linux base image, we'll have to install some dependencies taken for granted in other systems, like `gcc`, `curl` and `wget`. We name them `build-deps` so that we can refer to them later and delete them, in case you want a production ready system.
 
-The other dependencies are LuaRocks packages for unit testing, `busted`, and a http client, `lua-resty-http`.
+The other dependencies are Lua packages for unit testing, `busted`, and a http client, `lua-resty-http`.
 
 ### Carry over assets, Nginx config files, Lua files
 
@@ -123,7 +123,7 @@ The whole process should be quite fast. Building the image, carrying over the so
 
 As an example, imagine you have a website that you want to protect with a password screen. Lets use `http://www.theuselessweb.com/` as our target website because I've been procrastinating while writing this post. However, you want something custom, other than the basic authentication that Nginx can provide.
 
-We want the user to see a barrier form prompting a token. When the user sends the token, we want to validate it against a list of valid tokens. If the token is valid, we'll store a domain cookie with the token so that next time, the cookie in the headers is validated instead. If the token is found to be invalid in the server side, the user is served the form instead of the website he wishes to see. This is a simplified version of the proxy server that went live with Style.com's Beta launch, and that served as inspiration for this blog post.
+We want the user to see a barrier form prompting a token. When the user sends the token, we want to validate it against a list of valid tokens. If the token is valid, we'll store a domain cookie with the token so that next time, the cookie in the headers is validated instead. If the token is found to be invalid in the server side, the user is served the form instead of the website he wishes to see. This example is a simplified version of the proxy server that went live with Style.com's Beta launch, and that served as inspiration for this blog post.
 
 ![Barrier Page http flow](assets/img/bits-and-pieces/barrier-page-flow.jpg "Barrier Page http flow")
 
@@ -182,7 +182,7 @@ return
 
 ```
 
-`auth.lua` checks if the token is valid using the function `isvalid.lua`. It returns 401 if the token is invalid or redirects the user to `/` after setting the cookie, otherwise.
+`auth.lua` checks if the token is valid using the function `isvalid.lua`. It returns 401 if the token is invalid, or, redirects the user to `/` after setting the cookie, otherwise.
 
 ```
 -- auth.lua
@@ -211,13 +211,15 @@ ngx.redirect("/")
 return
 ```
 
-Notice that the Lua script is using a set of Nginx functionalities as an api (`ngx`). You can read more about this extensive api in the [github page](https://github.com/openresty/lua-nginx-module#nginx-api-for-lua).
+Notice that the Lua script is using a set of Nginx functionalities as an api (`ngx.redirect("/")` to redirect the user to `localhost/`, for instance.) You can read more about this extensive api in the [github page](https://github.com/openresty/lua-nginx-module#nginx-api-for-lua).
 
-If you want to read more and get started with this setup, just [clone the repo](https://github.com/fjsousa/openresty-smart-proxy) build it and run it using:
+If you've read this far and want to know more about the example I've just shown you, the best thing is to [clone the repo](https://github.com/fjsousa/openresty-smart-proxy), edit the Lua code, then build the image and run it using:
 
 - `docker build -t nginx-barrier-page:latest .`
 
 - `docker run -p 80:80 nginx-barrier-page:latest`
+
+Last but not least, this work was obviously a team effort from the smart and committed individuals at Style.com. A shout-out to everyone involved.
 
 
 Further Reading
