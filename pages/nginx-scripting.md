@@ -40,7 +40,7 @@ server {
 
 This configuration would listen in port `80` and proxy `some.website.com` according to some custom logic in `main.lua`. This extra directive is the basic additional sintax you need to add to your existing Nginx server configuration. If your OpenResty is installed locally, you can start adding your Lua logic and you'll just have to restart Nginx to pick up the changes.
 
-The setup works fine until you realize you have to go through the same setup in someone else's machine. After spending more time than you'd like to admite trying to get OpenResty compilation flags right, containerization starts to seem like something that would solve a lot of the development problems, instead of being just an extra setup for deployment.
+The setup works fine until you realize you have to go through the same process in someone else's machine. After spending more time than you'd like to admite trying to get OpenResty compilation flags right, containerization starts to seem like something that would solve a lot of the development problems, instead of being just an extra step for deployment.
 
 ## 2 Dockerfile
 
