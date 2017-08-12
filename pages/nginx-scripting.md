@@ -123,7 +123,7 @@ The whole process should be quite fast. Building the image, carrying over the so
 
 As an example, imagine you have a website that you want to protect with a password screen. Lets use `http://www.theuselessweb.com/` as our target website because I've been procrastinating while writing this post. However, you want something custom, other than the basic authentication that Nginx can provide.
 
-We want the user to see a barrier form prompting a token. When the user sends the token, we want to validate it against a list of valid tokens. If the token is valid, we'll store a domain cookie with the token so that next time, the cookie in the headers is validated instead. If the token is found to be invalid in the server side, the user is served the form instead of the website he wishes to see. This example is a simplified version of the proxy server that went live with Style.com's Beta launch, and that served as inspiration for this blog post.
+We want the user to see a barrier form prompting a authentication token. When the user sends the token, we want to validate it against a list of valid tokens. If the authentication token is valid, we'll store a domain cookie with a token, so that next time, the cookie in the headers is validated instead and the user proceeds to `http://www.theuselessweb.com/`. If the authentication token is found to be invalid the server replies 401. This example is a simplified version of the proxy server that went live with Style.com's Beta launch, and that served as inspiration for this blog post.
 
 ![Barrier Page http flow](assets/img/bits-and-pieces/barrier-page-flow.jpg "Barrier Page http flow")
 
@@ -182,7 +182,7 @@ return
 
 ```
 
-`auth.lua` checks if the token is valid using the function `isvalid.lua`. It returns 401 if the token is invalid, or, redirects the user to `/` after setting the cookie, otherwise.
+`auth.lua` checks if the authentication token is valid using the function `isvalid.lua`. It returns 401 if the token is invalid, or, redirects the user to `/` after setting the cookie, otherwise.
 
 ```
 -- auth.lua
