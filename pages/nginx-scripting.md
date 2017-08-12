@@ -123,7 +123,7 @@ The whole process should be quite fast. Building the image, carrying over the so
 
 As an example, imagine you have a website that you want to protect with a password screen. Lets use `http://www.theuselessweb.com/` as our target website because I've been procrastinating while writing this post. However, you want something custom, other than the basic authentication that Nginx can provide.
 
-We want the user to see a barrier form prompting a authentication token. When the user sends the token, we want to validate it against a list of valid tokens. If the authentication token is valid, we'll store a domain cookie with a token, so that next time, the cookie in the headers is validated instead and the user proceeds to `http://www.theuselessweb.com/`. If the authentication token is found to be invalid the server replies 401. This example is a simplified version of the proxy server that went live with Style.com's Beta launch, and that served as inspiration for this blog post.
+We want the user to see a barrier form prompting an authentication token. When the user sends the token, we want to validate it against a list of valid tokens. If the authentication token is valid, we'll store a domain cookie with a token, so that next time, the cookie in the headers is validated instead and the user proceeds to `http://www.theuselessweb.com/`. If the authentication token is found to be invalid the server replies 401. This example is a simplified version of the proxy server that went live with Style.com's Beta launch, and that served as inspiration for this blog post.
 
 ![Barrier Page http flow](assets/img/bits-and-pieces/barrier-page-flow.jpg "Barrier Page http flow")
 
@@ -182,7 +182,7 @@ return
 
 ```
 
-`auth.lua` checks if the authentication token is valid using the function `isvalid.lua`. It returns 401 if the token is invalid, or, redirects the user to `/` after setting the cookie, otherwise.
+`auth.lua` checks if the authentication token is valid using the function `isvalid.lua`. It returns 401 if the token is invalid, otherwise, redirects the user to `/` after setting the cookie.
 
 ```
 -- auth.lua
@@ -219,7 +219,7 @@ If you've read this far and want to know more about the example I've just shown 
 
 - `docker run -p 80:80 nginx-barrier-page:latest`
 
-Last but not least, this work was obviously a team effort from the smart and committed individuals at Style.com. A shout-out to everyone involved.
+Last but not least, a shout out to the smart and committed individuals from Style.com that were involved in this project.
 
 
 Further Reading
