@@ -13,7 +13,6 @@
                  [org.clojure/tools.namespace "0.2.11"]
                  [clj-rss "0.2.3"]
                  [clojure-watch "LATEST"]]
-  :plugins [[com.billpiel/sayid "0.0.15"]]
   :main ^:skip-aot blog.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})

@@ -12,7 +12,7 @@
             [clojure-watch.core :refer [start-watch]])
   (:gen-class))
 
-(def root "/Users/fsousa/src/blog-engine")
+(def root "/home/fsousa/src/data-journal.github.io")
 (def base-url "http://datajournal.co.uk")
 
 (defn get-pages [root] (->> (str root "/pages/*.md") glob/glob))
@@ -123,9 +123,13 @@
                                                     (println (str "File " filename " with event " event))))
                  :options {:recursive true}}]))
 
-(watch-fn)
 
 (defn -main
   [& args]
   (watch-fn))
 
+#_(build! root)
+
+#_ (def stop-function (watch-fn))
+
+#_(stop-function)

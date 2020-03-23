@@ -1,7 +1,32 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <rss version='2.0' xmlns:atom='http://www.w3.org/2005/Atom'>
 <channel>
-<atom:link href='http://datajournal.co.uk/cellular-automata.html' rel='self' type='application/rss+xml'/>
+<atom:link href='http://datajournal.co.uk/remote-work.html' rel='self' type='application/rss+xml'/>
+<title>
+Remote work in the age of Covid-19
+</title>
+<link>
+http://datajournal.co.uk/remote-work.html
+</link>
+<description>
+I've been wanting to write about my experience with remote work and how simple mindfulness techniques had a huge impact on my work quality. Now with Covid-19 sending a lot of people around me into forced remote work and with bad news pouring through every device with a screen around us, I felt the urgency to write it more than ever.
+</description>
+<category>
+remote-work
+</category>
+<category>
+covid-19
+</category>
+<category>
+mindfulness
+</category>
+<pubDate>
+Sat, 23 Mar 2019 00:00:00 +0000
+</pubDate>
+<generator>
+clj-rss
+</generator>
+<item>
 <title>
 Forest Fires and Parallel Cellular Automata, going from 8x to 240x faster with GPUs
 </title>
@@ -23,35 +48,13 @@ Algorithms
 <pubDate>
 Sun, 21 Jun 2015 01:00:00 +0100
 </pubDate>
-<generator>
-clj-rss
-</generator>
-<item>
-<title>
-Avoiding the pitfall of language fundamentalism. Why the obsessive pursuit of language mastery will not translate in results.
-</title>
-<link>
-http://datajournal.co.uk/language-fundamentalism.html
-</link>
-<description>
-Culture is a big part of the carbon based entities that do pretty much all of the computer programming these days. This blog post is my first take on the other fluffy aspects of software development. I'll argue why being a language fundamentalist won't safeguard you from producing a bad system.
-</description>
-<category>
-Clojure
-</category>
-<category>
-Culture
-</category>
-<pubDate>
-Thu, 13 Jul 2017 01:00:00 +0100
-</pubDate>
 </item>
 <item>
 <title>
 A development environment for a tricked out Nginx
 </title>
 <link>
-http://datajournal.co.uk/nginx-scripting.html
+http://datajournal.co.uk/nginx-openresty-lua-docker.html
 </link>
 <description>
 OpenResty lets you extend Nginx with Lua, a popular, embedded language. Setting up the development environment is time consuming when Openresty is compiled locally, making collaboration harder. This blog post will show you a Docker based tool to start hacking with server side Lua.
@@ -70,29 +73,6 @@ openresty
 </category>
 <pubDate>
 Mon, 07 Aug 2017 01:00:00 +0100
-</pubDate>
-</item>
-<item>
-<title>
-Melhor da Zona or: How I Learned to Stop Worrying and Love Data Transparency
-</title>
-<link>
-http://datajournal.co.uk/open-data.html
-</link>
-<description>
-This blog post shows how a culture of data sharing and transparency in government institutions, fosters important and unexpected changes in society. To illustrate this point, I'm going to talk about Melhor da Zona, a web app that lets you search the best driving schools in your area.
-</description>
-<category>
-Open Data
-</category>
-<category>
-Journalism
-</category>
-<category>
-Government Data
-</category>
-<pubDate>
-Mon, 10 Oct 2016 01:00:00 +0100
 </pubDate>
 </item>
 <item>
@@ -139,6 +119,49 @@ Modelling
 </category>
 <pubDate>
 Fri, 20 Mar 2015 00:00:00 +0000
+</pubDate>
+</item>
+<item>
+<title>
+Avoiding the pitfall of language fundamentalism. Why the obsessive pursuit of language mastery will not translate in results.
+</title>
+<link>
+http://datajournal.co.uk/clojure-language-pitfalls.html
+</link>
+<description>
+Culture is a big part of the carbon based entities that do pretty much all of the computer programming these days. This blog post is my first take on the other fluffy aspects of software development. I'll argue why being a language fundamentalist won't safeguard you from producing a bad system.
+</description>
+<category>
+Clojure
+</category>
+<category>
+Culture
+</category>
+<pubDate>
+Thu, 13 Jul 2017 01:00:00 +0100
+</pubDate>
+</item>
+<item>
+<title>
+Melhor da Zona or: How I Learned to Stop Worrying and Love Data Transparency
+</title>
+<link>
+http://datajournal.co.uk/open-data.html
+</link>
+<description>
+This blog post shows how a culture of data sharing and transparency in government institutions, fosters important and unexpected changes in society. To illustrate this point, I'm going to talk about Melhor da Zona, a web app that lets you search the best driving schools in your area.
+</description>
+<category>
+Open Data
+</category>
+<category>
+Journalism
+</category>
+<category>
+Government Data
+</category>
+<pubDate>
+Mon, 10 Oct 2016 01:00:00 +0100
 </pubDate>
 </item>
 </channel>

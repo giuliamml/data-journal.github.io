@@ -1,7 +1,7 @@
 Title: Remote work in the age of Covid-19
-Date: 2019 03 21
+Date: 2019 03 23
 Tags: remote-work,covid-19,mindfulness
-Subtitle: Covid-19 has already forced some massive shifts in the way we do work. Remote work, seen as a luxury few had, it's now a reality for many.
+Subtitle: I've been wanting to write about my experience with remote work and how simple mindfulness techniques had a huge impact on my work quality. Now with Covid-19 sending a lot of people around me into forced remote work and with bad news pouring through every device with a screen around us, I felt the urgency to write it more than ever.
 Thumb: <img alt="A minimalist affordable remote desk setup" src="assets/img/remote/desk_s.jpg">
 Slug: remote-work
 
@@ -48,7 +48,7 @@ There is a common misunderstanding about this technique and the fact that 25 min
 
 There has to be a place for everyone to "be in", so that has to be setup. Remote conference and group chats are abundant and the free tier is usually enough for small teams. It's important to advertise work hours to build an expectation of when you're going to be around the computer.
 
-If the work you were doing at the office was collaborative, that likely didn't change and the same expectation of availability has to be built now. It helps to comunicate early and frequently, to work together and to show and tell. I find that it really helps if you build an expectation on the other side of the chat that there's someone paying attention to their requests. If someone asks for something, it's important to be helpful and not wait for the request to be assigned.
+If the work you were doing at the office was collaborative, that likely didn't change and the same expectation of availability has to be built now. It helps to communicate early and frequently, to work together and to show and tell. I find that it really helps if you build an expectation on the other side of the chat that there's someone paying attention to their requests. If someone asks for something, it's important to be helpful and not wait for the request to be assigned.
 
 Working remotely changes the dynamics of how work is delegated and I find that it becomes much more "pull" based. It's important to create the expectation that as soon as you've got spare capacity, you'll jump on something.
 
@@ -69,10 +69,10 @@ Those that meditate recognize this as basic mindfullness training. For those tha
 When I started writing this last weekend, the situation in the UK was very different from what it is now, after the government announced that pubs, restaurants and gyms should stay closed. A lot of people were aware of what was about to hit the UK and those that were able to, started working from home and reducing social contact. Still, there were a lot of cases where HR and line managers were reluctant of sending people home, even though the work could be easily done so. As someone that experienced that remote work is far more productive, this was frustrating to watch and it seemed to be rooted in some misunderstanding of how remote teams operate.
 
 Covid-19 has already forced some massive shifts in the way we do work. Remote work, seen as a luxury few had, it now seems to be the way most of us in the service sector are going to work going forward.
-    
+
 ## Reading material
 
 - [Remote](https://basecamp.com/books/remote): This is a classic that laid the foundation for many companies currently operating with a full remote workforce.
 - [The Willpower Instinct](https://www.goodreads.com/book/show/10865206-the-willpower-instinct) and 
 [ The Upside of Stress ](https://www.goodreads.com/book/show/23281639-the-upside-of-stress)
-both by Kelly McGonigal, Ph.D. are amazing works of modern psychology and I can't recommend them enough. 
+both by Kelly McGonigal, Ph.D. are amazing works of modern psychology and I can't recommend them enough.
